@@ -1,0 +1,8 @@
+export const GET_CITIES = 'GET_CITIES';
+export const REQUEST_CITIES = 'REQUEST_CITIES';
+
+export const GET_ITINERARIES = 'GET_ITINERARIES';
+export const REQUEST_ITINERARIES = 'REQUEST_ITINERARIES';
+
+export const GET_ACT = 'GET_ACT';
+export const REQUEST_ACT = 'REQUEST_ACT';

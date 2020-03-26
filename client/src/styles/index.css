@@ -1,0 +1,74 @@
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  text-align: center;
+  font-family: 'Roboto';
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+h1 {
+  font-size: 3em;
+}
+h2 {
+  font-size: 2.3em;
+}
+h3 {
+  font-size: 1.7em;
+}
+
+.App {
+  margin-top: 64px;
+}
+
+#root > div > div.Header-root-1 > header > div > button{
+  margin-right: 0;
+}
+
+/* ============== LANDING ============== */
+.Landing{
+  padding: 15px;
+}
+
+.InnerLanding {
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  align-items: center;
+  justify-content: space-evenly;
+}
+/* ============== END LANDING ============== */
+
+/* ============== BANNER ============== */
+.Banner {
+  display: flex;
+  margin: 15px auto;
+}
+
+.Banner img {
+  width: 300px;
+  height: 120px;
+}
+/* ============== END BANNER ============== */
+
+/* ============== BROWSE ============== */
+/* ============== END BROWSE ============== */
+
+/* ============== ITINERARIES ============== */
+.Cities-cityList {
+  margin-bottom: 50px;
+}
+
+.Itineraries-itineraryList {
+  margin-bottom: 70px;
+}
+/* ============== END ITINERARIES ============== */
