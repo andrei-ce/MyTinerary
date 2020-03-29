@@ -22,11 +22,8 @@ router.post(
   [
     check('username', 'Please enter a valid username')
       .not()
-      .isEmpty()
-      .trim(),
-    check('email', 'Please include a valid email')
-      .isEmail()
-      .normalizeEmail(),
+      .isEmpty(),
+    check('email', 'Please include a valid email').isEmail(),
     check('password', 'Please enter a password of minimum 6 chars').isLength({ min: 6 }),
     check('firstName', 'Please enter a first name')
       .not()
@@ -37,12 +34,12 @@ router.post(
     check('country', 'Please a country')
       .not()
       .isEmpty()
-      .trim()
   ],
   async (req, res) => {
     //HANDLE ERRORS: check if any of the above coused errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log('hit an error');
       //format is only not to show errors.errors[{}] - shows errors[{}]
       return res.status(400).json({ errors: errors.array() });
     }
@@ -98,6 +95,61 @@ router.post(
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server internal erroar');
+    }
+  }
+);
+
+// @route   POST /users/login
+// @descr   Logs a user in: Searches for email, compares passwords, responds with a token (user._id inside)
+// @access  Public
+router.post(
+  '/login',
+  [
+    check('email', 'Email is required').isEmail(),
+    check('password', 'Password is required').exists()
+  ],
+  async (req, res) => {
+    //HANDLE ERRORS: check if any of the above coused errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log('hit an error');
+      //format is only not to show errors.errors[{}] - shows errors[{}]
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    //HANDLE USERNAME: needs to be unique
+    const { email, password } = req.body;
+    try {
+      user = await User.find({ email: email });
+      if (!user) {
+        return res.status(400).json({ errors: [{ msg: 'Invalid credentials' }] });
+      }
+
+      //decrypt user.password and compare to req.body.password
+      console.log(password);
+      console.log(user);
+      console.log(user.password);
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] });
+      }
+      //set up to return jwt on front end
+      const payload = {
+        user: {
+          id: user.id
+        }
+      };
+
+      //use user id to generate token, using jwtSecret, optional configs (expiration)
+      jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
+        //if no error, return jwtoken
+        if (err) throw err;
+        res.json({ token });
+      });
+      console.log(`User ${username} logged in`);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server internal erroawr');
     }
   }
 );

@@ -6,3 +6,7 @@ export const REQUEST_ITINERARIES = 'REQUEST_ITINERARIES';
 
 export const GET_ACT = 'GET_ACT';
 export const REQUEST_ACT = 'REQUEST_ACT';
+
+export const WILL_REGISTER_USER = 'WILL_POST_USER';
+export const SUCCESS_REGISTER_USER = 'POST_USER';
+export const FAIL_REGISTER_USER = 'POST_USER';

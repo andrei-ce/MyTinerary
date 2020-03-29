@@ -4,6 +4,9 @@
 }
 
 .Form-avatar {
+  background-image: url('https://source.unsplash.com/lySzv_cqxH8');
+  background-size: cover;
+  background-position: center;
   height: 170px;
   width: 170px;
   border-radius: 50%;
@@ -12,6 +15,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.Form-avatar > p {
+  /* color: white;
+  text-shadow: black 1px 1px 4px; */
+  padding-top: 190px;
 }
 
 .Form-mui-parent {
@@ -27,26 +36,37 @@
   margin-right: 10px;
 }
 
-#submit-button {
-  margin: 0 auto;
+#submit-button.register {
+  margin: auto;
   background-color: #ebebeb;
   color: white;
   width: 350px;
   max-width: 500px;
 }
 
-#submit-button.active {
+#submit-button.register.active {
   background-color: #353b53;
 }
 
-#submit-button.active:hover {
+#submit-button.register.active:hover {
   background-color: #545e85;
 }
 
 #checkbox
-  > span.MuiButtonBase-root.MuiIconButton-root.PrivateSwitchBase-root-216.MuiCheckbox-root.MuiCheckbox-colorPrimary.MuiIconButton-colorPrimary
+  > span.MuiButtonBase-root.MuiIconButton-root.MuiCheckbox-root.MuiCheckbox-colorPrimary.MuiIconButton-colorPrimary
   > span.MuiIconButton-label
   > svg {
-  border: red;
-  color: #353b53 !important;
+  color: #353b53;
+}
+
+#checkbox
+  > span.MuiButtonBase-root.MuiIconButton-root.MuiCheckbox-root.MuiCheckbox-colorPrimary.Mui-checked.MuiIconButton-colorPrimary
+  > span.MuiIconButton-label
+  > svg {
+  color: #353b53;
+}
+
+#checkbox {
+  margin: 0;
+  padding: 0 40px;
 }

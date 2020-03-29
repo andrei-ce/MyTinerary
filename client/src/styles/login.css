@@ -1,0 +1,23 @@
+#submit-button {
+  width: 350px;
+  max-width: 500px;
+  background-color: #353b53;
+  color: white;
+  margin: 20px 0;
+}
+
+#submit-button:hover {
+  background-color: #545e85;
+}
+
+.login-links {
+  text-align: left;
+}
+
+.link {
+  color: rgb(34, 34, 146);
+}
+
+.link:hover {
+  text-decoration: underline;
+}

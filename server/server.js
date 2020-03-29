@@ -7,9 +7,9 @@ const cors = require('cors');
 connectDB();
 
 app.use(cors());
-//This is to accept requests in JSON format
+//This is to accept requests in JSON format (so we dont )
 app.use(express.json({ extended: false }));
-//This is to accept requests in URL Enconded format
+//This is to accept requests in URL Enconded format (POSTMAN)
 app.use(express.urlencoded({ extended: true }));
 
 //Routes definition: what is the response for each endpoint?

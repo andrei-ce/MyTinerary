@@ -52,7 +52,7 @@ class AvatarDropDownComponent extends Component {
           keepMounted
           open={Boolean(this.state.anchorEl)}
           onClose={this.handleClose}>
-          <Link to='/'>
+          <Link to='/login'>
             <MenuItem onClick={this.handleClose}>Login</MenuItem>
           </Link>
           <Link to='/registration'>
