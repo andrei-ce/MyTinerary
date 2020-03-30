@@ -2,10 +2,13 @@ html {
   height: 100%;
 }
 
+* {
+  font-family: 'Raleway', sans-serif !important;
+}
+
 body {
   margin: 0;
   text-align: center;
-  font-family: 'Roboto';
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -30,22 +33,51 @@ h3 {
   margin-top: 64px;
 }
 
-#root > div > div.Header-root-1 > header > div > button{
+#root > div > div.Header-root-1 > header > div > button {
   margin-right: 0;
 }
 
-/* ============== LANDING ============== */
-.Landing{
-  padding: 15px;
+/* ============== HEADER BAR ============== */
+#root
+  > div
+  > div.Header-root-1
+  > header
+  > div
+  > div.MuiGrid-root.Header-title-2.MuiGrid-container.MuiGrid-spacing-xs-3
+  > div:nth-child(1) {
+  padding-right: 0;
 }
 
-.InnerLanding {
+#root
+  > div
+  > div.Header-root-1
+  > header
+  > div
+  > div.MuiGrid-root.Header-title-2.MuiGrid-container.MuiGrid-spacing-xs-3
+  > div:nth-child(2) {
+  padding-left: 5px;
+}
+/* ============== END HEADER BAR ============== */
+/* ============== LANDING ============== */
+
+.Jumbotron-wrapper {
   display: flex;
-  flex-direction: column;
-  height: 400px;
-  align-items: center;
+  justify-content: center;
+}
+
+#root > div > div.MuiGrid-root.Landing.MuiGrid-container div.icon-strip {
+  display: flex;
   justify-content: space-evenly;
 }
+
+#root > div > div.MuiGrid-root.Landing.MuiGrid-container div.icon-strip > svg {
+  color: rgb(75, 75, 75);
+}
+
+#root > div > div.MuiGrid-root.Landing.MuiGrid-container > div > div > div.MuiCardContent-root {
+  padding-bottom: 0;
+}
+
 /* ============== END LANDING ============== */
 
 /* ============== BANNER ============== */

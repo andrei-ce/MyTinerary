@@ -2,15 +2,17 @@ const connectDB = require('./config/db');
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const passport = require('passport');
+require('./passport');
 
 // Connect Database
 connectDB();
 
-app.use(cors());
-//This is to accept requests in JSON format (so we dont )
-app.use(express.json({ extended: false }));
-//This is to accept requests in URL Enconded format (POSTMAN)
-app.use(express.urlencoded({ extended: true }));
+//Initialize Middlewares
+app.use(cors()); //Initialize communication between front and back end server (confirm)
+app.use(express.json({ extended: false })); //To accept requests in URL Enconded format (easier in Postman)
+app.use(express.urlencoded({ extended: true })); //To accept requests in json (raw body format in Postman)
+app.use(passport.initialize());
 
 //Routes definition: what is the response for each endpoint?
 app.use('/cities', require('./routes/cities'));

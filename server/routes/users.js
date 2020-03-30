@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const config = require('config');
+const passport = require('passport');
 
 // @route   GET /users/test
 // @descr   test route
@@ -112,23 +113,19 @@ router.post(
     //HANDLE ERRORS: check if any of the above coused errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log('hit an error');
       //format is only not to show errors.errors[{}] - shows errors[{}]
       return res.status(400).json({ errors: errors.array() });
     }
 
-    //HANDLE USERNAME: needs to be unique
+    //HANDLE EMAIL: needs to be unique
     const { email, password } = req.body;
     try {
-      user = await User.find({ email: email });
+      user = await User.findOne({ email: email });
       if (!user) {
         return res.status(400).json({ errors: [{ msg: 'Invalid credentials' }] });
       }
 
       //decrypt user.password and compare to req.body.password
-      console.log(password);
-      console.log(user);
-      console.log(user.password);
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
         return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] });
@@ -146,12 +143,19 @@ router.post(
         if (err) throw err;
         res.json({ token });
       });
-      console.log(`User ${username} logged in`);
+      console.log(`User ${user.username} logged in`);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server internal erroawr');
     }
   }
 );
+
+// @route   GET /users/auth
+// @descr   receives a token and returns a user (detailed in the middleware file passport.js)
+// @access  Private
+router.get('/auth', passport.authenticate('jwt', { session: false }), (req, res) => {
+  res.json(req.user);
+});
 
 module.exports = router;

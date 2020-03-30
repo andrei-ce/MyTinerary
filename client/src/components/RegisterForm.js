@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter, Redirect } from 'react-router-dom';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
-import { postUser } from '../store/actions/userActions';
+import { registerUser } from '../store/actions/userActions';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -74,7 +74,7 @@ class RegisterForm extends Component {
   handleSubmit = () => {
     console.log(this.state);
     const { avatar, username, password, email, firstName, lastName, country } = this.state;
-    this.props.postUser({ avatar, username, password, email, firstName, lastName, country });
+    this.props.registerUser({ avatar, username, password, email, firstName, lastName, country });
   };
 
   render() {
@@ -233,4 +233,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { postUser })(withStyles(styles)(RegisterForm)));
+export default withRouter(
+  connect(mapStateToProps, { registerUser })(withStyles(styles)(RegisterForm))
+);

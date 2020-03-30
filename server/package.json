@@ -22,6 +22,8 @@
     "express-validator": "^6.4.0",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.3"
+    "mongoose": "^5.9.3",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0"
   }
 }

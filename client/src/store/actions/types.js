@@ -10,3 +10,9 @@ export const REQUEST_ACT = 'REQUEST_ACT';
 export const WILL_REGISTER_USER = 'WILL_POST_USER';
 export const SUCCESS_REGISTER_USER = 'POST_USER';
 export const FAIL_REGISTER_USER = 'POST_USER';
+
+export const WILL_LOGIN_USER = 'WILL_LOGIN_USER';
+export const SUCCESS_LOGIN_USER = 'SUCCESS_LOGIN_USER';
+export const FAIL_LOGIN_USER = 'FAIL_LOGIN_USER';
+
+export const AUTH_USER = 'AUTH_USER';

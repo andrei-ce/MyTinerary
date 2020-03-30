@@ -4,13 +4,14 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { loginUser } from '../store/actions/userActions';
 import '../styles/login.css';
 
 function Copyright() {
@@ -74,7 +75,7 @@ class Login extends Component {
   handleSubmit = () => {
     console.log(this.state);
     const { email, password } = this.state;
-    // this.props.postUser({ email, password });
+    this.props.loginUser({ email, password });
   };
 
   render() {
@@ -149,4 +150,11 @@ class Login extends Component {
   }
 }
 
-export default withStyles(styles)(Login);
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.users.isAuthenticated,
+    isFetching: state.users.isFetching
+  };
+};
+
+export default connect(mapStateToProps, { loginUser })(withStyles(styles)(Login));
