@@ -9,8 +9,13 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from './store/reducers/rootReducer';
+import { authUser } from './store/actions/userActions';
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+
+if (localStorage.getItem('token')) {
+  store.dispatch(authUser());
+}
 
 ReactDOM.render(
   <Provider store={store}>

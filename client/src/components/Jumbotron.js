@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography } from '@material-ui/core/';
-import Circle from '../img/circle.png';
 import { Link } from 'react-router-dom';
 import WorkIcon from '@material-ui/icons/Work';
 import FlightIcon from '@material-ui/icons/Flight';
@@ -31,10 +30,9 @@ const styles = (theme) => ({
     lineHeight: 1
   },
   description: {
-    fontSize: 14,
+    fontSize: 16,
     display: 'block',
-    padding: 15,
-    margin: '0 15'
+    padding: '20px 0'
   },
   img: {
     height: 80,
@@ -61,9 +59,9 @@ class Jumbotron extends Component {
         </div>
         <hr></hr>
         <CardContent className={classes.innerContent}>
-          <Typography className={classes.desrciption} color='textSecondary' gutterBottom>
-            Find the perfect trip for you, designed by insiders who know and love their cities and
-            curated by 80,000+ travellers just like yourself.
+          <Typography className={classes.description} color='textSecondary'>
+            Find the perfect trip for you, designed by insiders and locals who know and love their
+            cities. Curated by our team and 80,000+ travellers just like yourself.
           </Typography>
           <Link to='/cities'>
             <Button

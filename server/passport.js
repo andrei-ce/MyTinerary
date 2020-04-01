@@ -11,8 +11,6 @@ const opts = {
 
 module.exports = passport.use(
   new JwtStrategy(opts, (jwt_payload, done) => {
-    //is opts req and (jwt_payloas, done) res?
-    console.log(jwt_payload);
     User.findById(jwt_payload.user.id)
       .select('-password')
       .then((user) => {
@@ -24,5 +22,3 @@ module.exports = passport.use(
       .catch((err) => console.log(err));
   })
 );
-
-// todos los middlewares no deberian terminar con next ?? - si pero done tiene la lisma funcion!

@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { Menu, MenuItem, Avatar } from '@material-ui/core/';
+import { Menu, MenuItem } from '@material-ui/core/';
 import { withStyles } from '@material-ui/core/styles';
-import PersonIcon from '@material-ui/icons/Person';
 import { Link } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import { authUser, logoutUser } from '../store/actions/userActions';
+import PersonIcon from '@material-ui/icons/Person';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Typography from '@material-ui/core/Typography';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 const styles = (theme) => ({
   root: {
     display: 'flex',
@@ -11,9 +16,28 @@ const styles = (theme) => ({
       margin: theme.spacing(1)
     }
   },
-  purple: {
+  avatar: {
     color: 'white',
-    backgroundColor: '#a1a1a1'
+    height: 45,
+    width: 45,
+    border: '1px solid grey',
+    borderRadius: '50%',
+    backgroundColor: 'grey',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  usernameTag: {
+    paddingBottom: 0,
+    fontSize: 16
+  },
+  menuItem: {
+    width: 200
+  },
+  menuIcon: {
+    paddingRight: 10
   }
 });
 
@@ -33,18 +57,26 @@ class AvatarDropDownComponent extends Component {
     this.setState({ anchorEl: null });
   };
 
+  handleLogout = () => {
+    this.props.logoutUser();
+    this.setState({ anchorEl: null });
+  };
+
   render() {
-    const { classes } = this.props;
+    let { classes, isAuthenticated } = this.props;
+    let userData = isAuthenticated ? this.props.user : { avatar: 'none', username: 'guest' };
+    console.log(this.props);
     return (
       <div>
         <div className={classes.root}>
-          <Avatar
-            className={classes.purple}
-            aria-controls='simple-menu'
+          <div
+            className={classes.avatar}
+            style={{ backgroundColor: 'none', backgroundImage: `url(${userData.avatar})` }}
+            onClick={this.handleClick}
             aria-haspopup='true'
-            onClick={this.handleClick}>
-            <PersonIcon />
-          </Avatar>
+            aria-controls='simple-menu'>
+            {isAuthenticated ? null : <PersonIcon />}
+          </div>
         </div>
         <Menu
           id='simple-menu'
@@ -52,68 +84,48 @@ class AvatarDropDownComponent extends Component {
           keepMounted
           open={Boolean(this.state.anchorEl)}
           onClose={this.handleClose}>
-          <Link to='/login'>
-            <MenuItem onClick={this.handleClose}>Login</MenuItem>
-          </Link>
-          <Link to='/registration'>
-            <MenuItem onClick={this.handleClose}>Sign Up</MenuItem>
-          </Link>
+          <MenuItem className={(classes.usernameTag, classes.menuItem)}>
+            <PersonIcon fontSize={'large'} className={classes.menuIcon} />
+            <Typography variant='h6' display='block'>
+              {userData.username}
+            </Typography>
+          </MenuItem>
+          <hr />
+          {isAuthenticated ? (
+            <Link to='/'>
+              <MenuItem onClick={this.handleLogout}>
+                <ExitToAppIcon className={classes.menuIcon} /> Logout
+              </MenuItem>
+            </Link>
+          ) : (
+            <div>
+              <Link to='/login'>
+                <MenuItem onClick={this.handleClose}>
+                  <VpnKeyIcon className={classes.menuIcon} />
+                  Login
+                </MenuItem>
+              </Link>
+              <Link to='/registration'>
+                <MenuItem onClick={this.handleClose}>
+                  <PersonAddIcon className={classes.menuIcon} />
+                  Sign Up
+                </MenuItem>
+              </Link>
+            </div>
+          )}
         </Menu>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(AvatarDropDownComponent);
+const mapStateToProps = (state) => {
+  return {
+    user: state.users.user,
+    isAuthenticated: state.users.isAuthenticated
+  };
+};
 
-// import React from 'react';
-// import { Avatar, Menu, MenuItem } from '@material-ui/core/';
-// import { makeStyles } from '@material-ui/core/styles';
-// import PersonIcon from '@material-ui/icons/Person';
-
-// const useStyles = makeStyles(theme => ({
-//   root: {
-//     display: 'flex',
-//     '& > *': {
-//       margin: theme.spacing(1),
-//     },
-//   },
-//   gray: {
-//     color: 'white',
-//     backgroundColor: '#a1a1a1',
-//   },
-// }));
-
-// export default function AvatarDropDown() {
-//   const classes = useStyles();
-
-//   const [anchorEl, setAnchorEl] = React.useState(null);
-
-//   const handleClick = event => {
-//     setAnchorEl(event.currentTarget);
-//   };
-
-//   const handleClose = () => {
-//     setAnchorEl(null);
-//   };
-
-//   return (
-//     <div>
-//       <div className={classes.root}>
-//         <Avatar className={classes.gray} aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-//           <PersonIcon />
-//         </Avatar>
-//       </div>
-//       <Menu
-//         id="simple-menu"
-//         anchorEl={anchorEl}
-//         keepMounted
-//         open={Boolean(anchorEl)}
-//         onClose={handleClose}
-//       >
-//         <MenuItem onClick={handleClose}>Login</MenuItem>
-//         <MenuItem onClick={handleClose}>Sign Up</MenuItem>
-//       </Menu>
-//     </div>
-//   );
-// }
+export default connect(mapStateToProps, { authUser, logoutUser })(
+  withStyles(styles)(AvatarDropDownComponent)
+);

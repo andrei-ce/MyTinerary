@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../styles/carousel.css';
 
-export default class Carousel extends Component {
+export default class PopularItineraries extends Component {
   render() {
     const sliderSettings = {
       className: 'center',
@@ -20,28 +20,28 @@ export default class Carousel extends Component {
       <div className='Carousel'>
         <p>Populer Itineraries</p>
         <Slider {...sliderSettings}>
-          <div className='Carousel-papercito'>
+          <div className='Carousel-item'>
             <img src='https://source.unsplash.com/N6HTCyN50p0' alt='barcelona' />
           </div>
-          <div className='Carousel-papercito'>
+          <div className='Carousel-item'>
             <img src='https://source.unsplash.com/TScGhJM716g' alt='berlin' />
           </div>
-          <div className='Carousel-papercito'>
+          <div className='Carousel-item'>
             <img src='https://source.unsplash.com/ABCHenqNe6c' alt='amsterdam' />
           </div>
-          <div className='Carousel-papercito'>
+          <div className='Carousel-item'>
             <img src='https://source.unsplash.com/7F65HDP0-E0' alt='rio de janeiro' />
           </div>
-          <div className='Carousel-papercito'>
+          <div className='Carousel-item'>
             <img src='https://source.unsplash.com/VW8MUbHyxCU' alt='new york' />
           </div>
-          <div className='Carousel-papercito'>
+          <div className='Carousel-item'>
             <img src='https://source.unsplash.com/layMbSJ3YOE' alt='tokyo' />
           </div>
-          <div className='Carousel-papercito'>
+          <div className='Carousel-item'>
             <img src='https://source.unsplash.com/qaNcz43MeY8' alt='sydney' />
           </div>
-          <div className='Carousel-papercito'>
+          <div className='Carousel-item'>
             <img src='https://source.unsplash.com/hzR9rDXWbqo' alt='cape town' />
           </div>
         </Slider>

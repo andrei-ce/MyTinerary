@@ -5,7 +5,8 @@ import {
   WILL_LOGIN_USER,
   SUCCESS_LOGIN_USER,
   FAIL_LOGIN_USER,
-  AUTH_USER
+  AUTH_USER,
+  LOGOUT_USER
 } from '../actions/types';
 
 const initState = {
@@ -24,11 +25,12 @@ const userReducer = (state = initState, action) => {
     // Login OK = this will only return a token
     case SUCCESS_REGISTER_USER:
     case SUCCESS_LOGIN_USER:
+      console.log(payload);
       localStorage.setItem('token', payload.token);
-      return { ...state, isAuthenticated: true, isFetching: false }; //no need for ...payload in the return. not using it as state or props, saving it on local storage
+      return { ...state, isFetching: false }; //no need for ...payload in the return. not using it as state or props, saving it on local storage
     case FAIL_REGISTER_USER:
     case FAIL_LOGIN_USER:
-      if (localStorage.getItem('token') !== undefined) {
+      if (localStorage.getItem('token')) {
         return localStorage.removeItem('token');
       }
       return { ...state, token: null, isAuthenticated: false, isFetching: false };
@@ -41,6 +43,17 @@ const userReducer = (state = initState, action) => {
         isAuthenticated: true
       };
     // add logout action
+    case LOGOUT_USER:
+      if (localStorage.getItem('token')) {
+        localStorage.removeItem('token');
+      }
+      return {
+        ...state,
+        user: null,
+        token: null,
+        isAuthenticated: false,
+        isLoading: false
+      };
     default:
       return state;
   }

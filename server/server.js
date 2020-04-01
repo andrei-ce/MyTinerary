@@ -9,10 +9,10 @@ require('./passport');
 connectDB();
 
 //Initialize Middlewares
+app.use(passport.initialize());
 app.use(cors()); //Initialize communication between front and back end server (confirm)
 app.use(express.json({ extended: false })); //To accept requests in URL Enconded format (easier in Postman)
 app.use(express.urlencoded({ extended: true })); //To accept requests in json (raw body format in Postman)
-app.use(passport.initialize());
 
 //Routes definition: what is the response for each endpoint?
 app.use('/cities', require('./routes/cities'));

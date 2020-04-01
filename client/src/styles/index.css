@@ -29,10 +29,6 @@ h3 {
   font-size: 1.7em;
 }
 
-.App {
-  margin-top: 64px;
-}
-
 #root > div > div.Header-root-1 > header > div > button {
   margin-right: 0;
 }
@@ -58,11 +54,26 @@ h3 {
   padding-left: 5px;
 }
 /* ============== END HEADER BAR ============== */
-/* ============== LANDING ============== */
+/* ============== LANDING VIEW ============== */
 
-.Jumbotron-wrapper {
-  display: flex;
+.Landing {
+  background-image: url('https://source.unsplash.com/A5rCN8626Ck');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+
+.MuiGrid-item.Jumbotron-wrapper {
+  display: block;
   justify-content: center;
+  height: 300px;
+  margin: 64px auto 0 auto;
+}
+
+#root > div > div.MuiGrid-root.Landing.MuiGrid-container > div > div {
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0.95);
 }
 
 #root > div > div.MuiGrid-root.Landing.MuiGrid-container div.icon-strip {
@@ -78,29 +89,24 @@ h3 {
   padding-bottom: 0;
 }
 
-/* ============== END LANDING ============== */
+/* ============== END LANDING VIEW============== */
 
-/* ============== BANNER ============== */
-.Banner {
-  display: flex;
-  margin: 15px auto;
+/* ============= CITIES VIEW =================== */
+.Cities {
+  margin-top: 60px;
 }
 
-.Banner img {
-  width: 300px;
-  height: 120px;
-}
-/* ============== END BANNER ============== */
-
-/* ============== BROWSE ============== */
-/* ============== END BROWSE ============== */
-
-/* ============== ITINERARIES ============== */
 .Cities-cityList {
   margin-bottom: 50px;
+}
+
+/* ============= END CITIES VIEW =============== */
+/* ============ ITINERARIES VIEW =============== */
+.Itineraries {
+  margin-top: 50px;
 }
 
 .Itineraries-itineraryList {
   margin-bottom: 70px;
 }
-/* ============== END ITINERARIES ============== */
+/* ============ END ITINERARIES VIEW =========== */

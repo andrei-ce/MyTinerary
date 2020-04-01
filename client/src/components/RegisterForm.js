@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
 import { registerUser } from '../store/actions/userActions';
@@ -72,7 +72,6 @@ class RegisterForm extends Component {
   };
 
   handleSubmit = () => {
-    console.log(this.state);
     const { avatar, username, password, email, firstName, lastName, country } = this.state;
     this.props.registerUser({ avatar, username, password, email, firstName, lastName, country });
   };
@@ -89,10 +88,9 @@ class RegisterForm extends Component {
       country,
       termsConditions
     } = this.state;
-    console.log(this.props);
 
     if (isAuthenticated) {
-      return <Redirect to='/cities' />;
+      return <Redirect to='/' />;
     } else {
       return (
         <div className={classes.root}>
@@ -194,7 +192,6 @@ class RegisterForm extends Component {
                   <MenuItem value='BR'>Brazil</MenuItem>
                   <MenuItem value='NL'>Netherlands</MenuItem>
                   <MenuItem value='PE'>Peru</MenuItem>
-                  <MenuItem value='NL'>Scotland</MenuItem>
                   <MenuItem value='ES'>Spain</MenuItem>
                   <MenuItem value='SW'>Sweden</MenuItem>
                   <MenuItem value='UK'>United Kingdom</MenuItem>
@@ -233,6 +230,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(
-  connect(mapStateToProps, { registerUser })(withStyles(styles)(RegisterForm))
-);
+export default connect(mapStateToProps, { registerUser })(withStyles(styles)(RegisterForm));

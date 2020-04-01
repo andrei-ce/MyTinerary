@@ -56,7 +56,7 @@ router.post(
 
       // Get users ravatar from gravatar
       const avatar = gravatar.url(email, {
-        s: '200', //sets size
+        s: '80', //sets size
         r: 'pg', //filters naked people
         d: 'mm' //sets default image if doesnt exist already
       });

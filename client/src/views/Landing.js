@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Jumbotron from '../components/Jumbotron';
-import Carousel from '../components/Carousel';
+import PopularItineraries from '../components/PopularItineraries';
 import Grid from '@material-ui/core/Grid';
 
 export default class Landing extends Component {
@@ -10,7 +10,7 @@ export default class Landing extends Component {
         <Grid item className='Jumbotron-wrapper'>
           <Jumbotron />
         </Grid>
-        {/* <Carousel /> */}
+        {/* <PopularItineraries /> */}
       </Grid>
     );
   }

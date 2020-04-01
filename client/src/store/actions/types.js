@@ -16,3 +16,5 @@ export const SUCCESS_LOGIN_USER = 'SUCCESS_LOGIN_USER';
 export const FAIL_LOGIN_USER = 'FAIL_LOGIN_USER';
 
 export const AUTH_USER = 'AUTH_USER';
+
+export const LOGOUT_USER = 'LOGOUT_USER';

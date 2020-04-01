@@ -7,20 +7,22 @@ import HomeIcon from '@material-ui/icons/Home';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Link } from 'react-router-dom';
 
-
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     '& > *': {
-      margin: theme.spacing(1),
-    },
+      margin: theme.spacing(1)
+    }
   },
   menuItems: {
     display: 'flex',
     alignItems: 'center',
-    justify: 'space-between',
     textDecoration: 'none',
     color: 'black',
+    width: 180
+  },
+  menuIcons: {
+    paddingRight: 10
   }
 }));
 
@@ -29,7 +31,7 @@ export default function AvatarDropDown() {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -40,25 +42,31 @@ export default function AvatarDropDown() {
   return (
     <div>
       <div className={classes.root}>
-        <MenuIcon aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} />
+        <MenuIcon aria-controls='simple-menu' aria-haspopup='true' onClick={handleClick} />
       </div>
       <Menu
-        id="simple-menu"
+        id='simple-menu'
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleClose}>
-          <Link className={classes.menuItems} to="/"><HomeIcon /> Home</Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link className={classes.menuItems} to="/Cities"><LocationCityIcon /> Cities</Link>
+        onClose={handleClose}>
+        <MenuItem className={classes.menuItems} onClick={handleClose}>
+          <Link to='/'>
+            <HomeIcon className={classes.menuIcons} /> Home
+          </Link>
         </MenuItem>
         <MenuItem className={classes.menuItems} onClick={handleClose}>
-          <Link className={classes.menuItems} to="/"><FavoriteIcon /> Favorites </Link>
+          <Link to='/Cities'>
+            <LocationCityIcon className={classes.menuIcons} />
+            Cities
+          </Link>
+        </MenuItem>
+        <MenuItem className={classes.menuItems} onClick={handleClose}>
+          <Link to='/'>
+            <FavoriteIcon className={classes.menuIcons} /> Favorites{' '}
+          </Link>
         </MenuItem>
       </Menu>
-    </div >
+    </div>
   );
 }

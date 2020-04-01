@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -73,80 +73,83 @@ class Login extends Component {
   };
 
   handleSubmit = () => {
-    console.log(this.state);
     const { email, password } = this.state;
     this.props.loginUser({ email, password });
   };
 
   render() {
-    const { classes } = this.props;
-    return (
-      <div>
-        <Grid container component='main' className={classes.root}>
-          <CssBaseline />
-          <Grid item xs={false} sm={4} md={7} className={classes.image} />
-          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-            <div className={classes.paper}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component='h1' variant='h5'>
-                Login
-              </Typography>
-              <form className={classes.form} noValidate>
-                <TextField
-                  variant='outlined'
-                  margin='normal'
-                  required
-                  fullWidth
-                  id='email'
-                  label='E-mail'
-                  name='email'
-                  autoComplete='email'
-                  autoFocus
-                  onChange={this.handleChange}
-                />
-                <TextField
-                  variant='outlined'
-                  margin='normal'
-                  required
-                  fullWidth
-                  name='password'
-                  label='Password'
-                  type='password'
-                  id='password'
-                  autoComplete='current-password'
-                  onChange={this.handleChange}
-                />
-                <Button
-                  fullWidth
-                  variant='contained'
-                  id='submit-button'
-                  className={classes.submit}
-                  onClick={this.handleSubmit}>
+    const { classes, isAuthenticated } = this.props;
+    if (isAuthenticated) {
+      return <Redirect to='/' />;
+    } else {
+      return (
+        <div>
+          <Grid container component='main' className={classes.root}>
+            <CssBaseline />
+            <Grid item xs={false} sm={4} md={7} className={classes.image} />
+            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+              <div className={classes.paper}>
+                <Avatar className={classes.avatar}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component='h1' variant='h5'>
                   Login
-                </Button>
-                <Grid container className='login-links'>
-                  <Grid item xs>
-                    <Link to='#' variant='body2' className='link'>
-                      Forgot password?
-                    </Link>
+                </Typography>
+                <form className={classes.form} noValidate>
+                  <TextField
+                    variant='outlined'
+                    margin='normal'
+                    required
+                    fullWidth
+                    id='email'
+                    label='E-mail'
+                    name='email'
+                    autoComplete='email'
+                    autoFocus
+                    onChange={this.handleChange}
+                  />
+                  <TextField
+                    variant='outlined'
+                    margin='normal'
+                    required
+                    fullWidth
+                    name='password'
+                    label='Password'
+                    type='password'
+                    id='password'
+                    autoComplete='current-password'
+                    onChange={this.handleChange}
+                  />
+                  <Button
+                    fullWidth
+                    variant='contained'
+                    id='submit-button'
+                    className={classes.submit}
+                    onClick={this.handleSubmit}>
+                    Login
+                  </Button>
+                  <Grid container className='login-links'>
+                    <Grid item xs>
+                      <Link to='#' variant='body2' className='link'>
+                        Forgot password?
+                      </Link>
+                    </Grid>
+                    <Grid item>
+                      <Link to='registration' variant='body2' className='link'>
+                        Don't have an account?
+                      </Link>
+                    </Grid>
                   </Grid>
-                  <Grid item>
-                    <Link to='registration' variant='body2' className='link'>
-                      Don't have an account?
-                    </Link>
-                  </Grid>
-                </Grid>
-                <Box mt={5}>
-                  <Copyright />
-                </Box>
-              </form>
-            </div>
+                  <Box mt={5}>
+                    <Copyright />
+                  </Box>
+                </form>
+              </div>
+            </Grid>
           </Grid>
-        </Grid>
-      </div>
-    );
+        </div>
+      );
+    }
   }
 }
 

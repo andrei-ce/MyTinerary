@@ -5,7 +5,8 @@ import {
   WILL_LOGIN_USER,
   SUCCESS_LOGIN_USER,
   FAIL_LOGIN_USER,
-  AUTH_USER
+  AUTH_USER,
+  LOGOUT_USER
 } from './types';
 import axios from 'axios';
 
@@ -31,21 +32,20 @@ export const registerUser = ({
     lastName: lastName,
     country: country
   };
-  const config = {
-    headers: {
-      'Content-type': 'application/json' //not sure this is necessary for json
-    }
-  };
 
   try {
     dispatch({ type: WILL_REGISTER_USER });
-    const res = await axios.post('http://localhost:5000/users/register/', body, config);
+    console.log('try');
+
+    const res = await axios.post('http://localhost:5000/users/register/', body);
+    console.log(res);
     dispatch({
       type: SUCCESS_REGISTER_USER,
       payload: res.data //this is the token we are sending back with JWT
     });
+    dispatch(authUser());
   } catch (err) {
-    console.log(err.response.data.errors);
+    console.log(err);
     dispatch({
       type: FAIL_REGISTER_USER
     });
@@ -58,28 +58,29 @@ export const registerUser = ({
 export const loginUser = ({ email, password }) => async (dispatch) => {
   //prepate body and headers of POST request
   const body = { email, password };
-  const config = {
-    headers: {
-      'Content-type': 'application/json' //not sure this is necessary for json
-    }
-  };
 
   try {
     dispatch({ type: WILL_LOGIN_USER });
-    const res = await axios.post('http://localhost:5000/users/login/', body, config);
+    const res = await axios.post('http://localhost:5000/users/login/', body);
+    console.log(res);
     dispatch({
       type: SUCCESS_LOGIN_USER,
       payload: res.data //this is the token we are sending back with JWT
     });
+    dispatch(authUser());
+    console.log(res.data);
   } catch (err) {
-    console.log(err.response.data.errors);
+    console.log(err);
     dispatch({
       type: FAIL_LOGIN_USER
     });
   }
 };
 
-export const authUser = async (dispatch) => {
+// =========================================
+// -------------- AUTH USER  ---------------
+// =========================================
+export const authUser = () => async (dispatch) => {
   const config = {
     headers: {
       'Content-type': 'application/json', //not sure this is necessary for json
@@ -87,12 +88,23 @@ export const authUser = async (dispatch) => {
     }
   };
   try {
-    const res = await axios.get('http://localhost:5000/users/auth/', null, config);
+    const res = await axios.get('http://localhost:5000/users/auth/', config);
     dispatch({
       type: AUTH_USER,
       payload: res.data //this is the user that passport.js sends back, which will go into state.user.user (i think)
     });
   } catch (err) {
-    console.log(err.reponse.data.errors);
+    console.log(err);
+  }
+};
+
+// =========================================
+// ------------- LOGOUT USER  --------------
+// =========================================
+export const logoutUser = () => (dispatch) => {
+  try {
+    dispatch({ type: LOGOUT_USER });
+  } catch (err) {
+    console.log(err);
   }
 };
