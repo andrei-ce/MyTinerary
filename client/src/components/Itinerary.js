@@ -7,6 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Activity from './Activity';
 import '../styles/itinerary.css';
+import Comment from './Comment';
+import CommentField from './CommentField';
+import { connect } from 'react-redux';
 
 const styles = (theme) => ({
   root: {
@@ -28,6 +31,9 @@ const styles = (theme) => ({
     color: theme.palette.text.secondary,
     paddingLeft: 5,
     paddingRight: 5
+  },
+  title: {
+    margin: '30px 0 10px 0'
   }
 });
 
@@ -37,8 +43,9 @@ class Itinerary extends Component {
   };
 
   render() {
-    const { classes, expanded } = this.props;
+    const { classes, expanded, isAuthenticated } = this.props;
     const { _id, title, img, duration, description, price, rating } = this.props.itinerary;
+    console.log(this.props);
     return (
       <div className={classes.root}>
         <ExpansionPanel expanded={_id === expanded} onChange={() => this.handleChange(_id)}>
@@ -61,6 +68,10 @@ class Itinerary extends Component {
               <Activity itineraryId={_id} className='Itinerary-activities' />
             ) : null}
             <Typography className='Itinerary-description'>{description}</Typography>
+            <h4 className={classes.title}> Comments </h4>
+            <hr />
+            <Comment></Comment>
+            {isAuthenticated ? <CommentField itinerary_id={expanded}></CommentField> : null}
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </div>
@@ -68,4 +79,10 @@ class Itinerary extends Component {
   }
 }
 
-export default withStyles(styles)(Itinerary);
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.users.isAuthenticated
+  };
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(Itinerary));

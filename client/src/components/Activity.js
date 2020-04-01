@@ -4,13 +4,12 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { connect } from 'react-redux';
 import { getActivities } from '../store/actions/actActions';
-import '../styles/carousel.css';
+import '../styles/activities.css';
 
 class Activity extends Component {
   componentDidMount() {
     let id = this.props.itineraryId;
     this.props.getActivities(id);
-    console.log(id);
   }
 
   render() {
@@ -50,19 +49,16 @@ class Activity extends Component {
     };
 
     const { activities } = this.props.activities;
-    console.log(activities);
-    // const activityArray = activities.length > 0 ? activities : null;
     return (
-      <div className='Carousel'>
-        <h5> Activities </h5>
+      <div className='Activity'>
+        <h4 className='Title'> Activities </h4>
+        <hr />
         <Slider {...settings}>
           {activities != null ? (
             activities.map((a) => {
               return (
-                <div className='Carousel-activity-item' key={a._id}>
-                  <h3
-                    className='Carousel-activity-title'
-                    style={{ backgroundImage: `url(${a.img})` }}>
+                <div className='Activity-item' key={a._id}>
+                  <h3 className='Activity-title' style={{ backgroundImage: `url(${a.img})` }}>
                     {a.name}
                   </h3>
                 </div>

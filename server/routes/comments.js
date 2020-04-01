@@ -66,13 +66,13 @@ router.get('/:itinerary_id', async (req, res) => {
       'username'
     ]);
 
+    //at some point use moment.js to format date
+
     res.json({ comments });
   } catch (error) {
     res.status(500).send('Server internal error!' + error);
   }
 });
-
-//=======at some point use moment.js to formatdate=======
 
 // @route   DELETE /comments/
 // @descr   delete a comment by its id IF you are the same user

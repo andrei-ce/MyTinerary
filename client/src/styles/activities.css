@@ -1,0 +1,25 @@
+.slick-prev:before,
+.slick-next:before {
+  color: black;
+}
+
+#panel1bh-content > div > div.Activity {
+  height: 200px;
+}
+
+.Activity-item {
+  height: 180px;
+}
+.Activity-title {
+  height: 100%;
+  margin: 0 5px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 5px;
+  color: white;
+  text-shadow: black 1px 1px 4px;
+}
+
+h4.Title {
+  margin: 6px 0;
+}
