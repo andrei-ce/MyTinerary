@@ -19,6 +19,7 @@ app.use('/cities', require('./routes/cities'));
 app.use('/itineraries', require('./routes/itineraries'));
 app.use('/activities', require('./routes/activities'));
 app.use('/users', require('./routes/users'));
+app.use('/comments', require('./routes/comments'));
 
 const port = process.env.PORT || 5000;
 

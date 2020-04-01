@@ -1,4 +1,3 @@
-//ensure some sort of structure for the documents in our database collection
 const mongoose = require('mongoose');
 
 const itinerarySchema = new mongoose.Schema({
@@ -27,7 +26,7 @@ const itinerarySchema = new mongoose.Schema({
     required: true
   },
   rating: {
-    type: Number,
+    type: Number
   },
   img: {
     type: String,

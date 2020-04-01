@@ -5,7 +5,7 @@ const config = require('config');
 const passport = require('passport');
 
 const opts = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // HAY QUE USAR AUTHORIZATION en key y token en value
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // HAY QUE USAR AUTHORIZATION en key y 'Bearer + token' en value
   secretOrKey: config.get('jwtSecret') // need to be called opts.secretOrKey
 };
 

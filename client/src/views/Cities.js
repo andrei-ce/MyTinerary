@@ -9,42 +9,48 @@ class Cities extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchText: "",
-    }
+      searchText: ''
+    };
   }
 
   handleSearch = (evt) => {
     this.setState({
       searchText: evt.target.value
     });
-  }
+  };
 
   componentDidMount() {
-    this.props.getCities()
+    this.props.getCities();
   }
 
   render() {
     const { cities, isFetching } = this.props.cities;
     return (
-      <div className="Cities">
-        <div className="Cities-searchBar">
-          <input onChange={this.handleSearch} type="text" id="searchBar" placeholder="Search city..." />
-          <img src={loader} alt="loading" className={isFetching ? null : "loaded"}></img>
+      <div className='Cities'>
+        <div className='Cities-searchBar'>
+          <input
+            onChange={this.handleSearch}
+            type='text'
+            id='searchBar'
+            placeholder='Search city...'
+          />
+          <img src={loader} alt='loading' className={isFetching ? null : 'loaded'}></img>
         </div>
-        <div className="Cities-cityList">
-
+        <div className='Cities-cityList'>
           {cities
-            .filter(city =>
-              city.name.toLowerCase().startsWith(this.state.searchText.toLowerCase()))
-            .map(city => {
-              return <div key={city._id} className="Cities-cityCard">
-                <City city={city} />
-              </div>
-            })
-          }
+            .filter((city) =>
+              city.name.toLowerCase().startsWith(this.state.searchText.toLowerCase())
+            )
+            .map((city) => {
+              return (
+                <div key={city._id} className='Cities-cityCard'>
+                  <City city={city} />
+                </div>
+              );
+            })}
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -52,8 +58,8 @@ class Cities extends Component {
 const mapStateToProps = (state) => {
   return {
     cities: state.cities
-  }
-}
+  };
+};
 
 // add mapDispatchToProps function --> or, directly plug in the getCities function as below:
 
