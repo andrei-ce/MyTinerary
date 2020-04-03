@@ -32,7 +32,13 @@ const userSchema = new mongoose.Schema({
   date: {
     type: String,
     default: Date.now
-  }
+  },
+  favorites: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'itinerary'
+    }
+  ]
 });
 
 module.exports = User = mongoose.model('user', userSchema);

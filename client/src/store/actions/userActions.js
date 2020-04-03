@@ -6,7 +6,9 @@ import {
   SUCCESS_LOGIN_USER,
   FAIL_LOGIN_USER,
   AUTH_USER,
-  LOGOUT_USER
+  LOGOUT_USER,
+  FAVE_ITINERARY,
+  FAVE_FAIL
 } from './types';
 import axios from 'axios';
 
@@ -35,10 +37,7 @@ export const registerUser = ({
 
   try {
     dispatch({ type: WILL_REGISTER_USER });
-    console.log('try');
-
     const res = await axios.post('http://localhost:5000/users/register/', body);
-    console.log(res);
     dispatch({
       type: SUCCESS_REGISTER_USER,
       payload: res.data //this is the token we are sending back with JWT
@@ -62,13 +61,11 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
   try {
     dispatch({ type: WILL_LOGIN_USER });
     const res = await axios.post('http://localhost:5000/users/login/', body);
-    console.log(res);
     dispatch({
       type: SUCCESS_LOGIN_USER,
       payload: res.data //this is the token we are sending back with JWT
     });
     dispatch(authUser());
-    console.log(res.data);
   } catch (err) {
     console.log(err);
     dispatch({
@@ -97,7 +94,6 @@ export const authUser = () => async (dispatch) => {
     console.log(err);
   }
 };
-
 // =========================================
 // ------------- LOGOUT USER  --------------
 // =========================================
@@ -105,6 +101,18 @@ export const logoutUser = () => (dispatch) => {
   try {
     dispatch({ type: LOGOUT_USER });
   } catch (err) {
+    console.log(err);
+  }
+};
+
+export const faveItinerary = ({ itinerary, user_id }) => async (dispatch) => {
+  const itinerary_id = itinerary._id;
+  const body = { itinerary_id, user_id };
+  try {
+    await axios.put('http://localhost:5000/users', body);
+    dispatch({ type: FAVE_ITINERARY, payload: itinerary });
+  } catch (err) {
+    dispatch({ type: FAVE_FAIL });
     console.log(err);
   }
 };

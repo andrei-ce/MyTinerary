@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import ImageIcon from '@material-ui/icons/Image';
 import Divider from '@material-ui/core/Divider';
-import '../styles/comments.css';
 import TextField from '@material-ui/core/TextField';
-import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import SendIcon from '@material-ui/icons/Send';
+import { postComment } from '../store/actions/commentActions';
+
+import '../styles/comments.css';
 
 const styles = (theme) => ({
   root: {
@@ -33,7 +33,7 @@ class CommentField extends Component {
 
     this.state = {
       text: '',
-      user_id: '',
+      user: '',
       itinerary_id: ''
     };
   }
@@ -42,12 +42,15 @@ class CommentField extends Component {
     this.setState({ [evt.target.name]: evt.target.value });
   };
 
-  handleSubmit = async () => {
+  handleSubmit = async (evt) => {
+    evt.preventDefault();
     await this.setState({
       itinerary_id: this.props.itinerary_id,
-      user_id: this.props.user._id
+      user: this.props.user._id
     });
-    console.log(this.state);
+    let { itinerary_id, user, text } = this.state;
+    await this.props.postComment(itinerary_id, user, text);
+    this.setState({ text: '' });
   };
 
   render() {
@@ -71,6 +74,7 @@ class CommentField extends Component {
                   multiline
                   rowsMax='4'
                   name='text'
+                  value={this.state.text}
                   onChange={this.handleChange}
                 />
               </React.Fragment>
@@ -91,4 +95,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(CommentField));
+export default connect(mapStateToProps, { postComment })(withStyles(styles)(CommentField));

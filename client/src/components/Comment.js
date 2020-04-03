@@ -21,20 +21,20 @@ const styles = (theme) => ({
 
 class Comment extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, comment } = this.props;
 
     return (
       <List className={classes.root}>
         <ListItem>
           <ListItemAvatar>
-            <Avatar>
+            <Avatar alt={comment.user.username} src={comment.user.avatar}>
               <ImageIcon />
             </Avatar>
           </ListItemAvatar>
           <Divider className={classes.divider} orientation='vertical' flexItem />
           <ListItemText
-            primary='Username, 4 days ago'
-            secondary='I am so happy that I found this itinerary.... specially because of the first activity, make sure you have time for it!'
+            primary={`${comment.user.username}, ${comment.date}`}
+            secondary={comment.text}
           />
         </ListItem>
       </List>

@@ -62,7 +62,7 @@ export default function AvatarDropDown() {
           </Link>
         </MenuItem>
         <MenuItem className={classes.menuItems} onClick={handleClose}>
-          <Link to='/'>
+          <Link to='/favorites'>
             <FavoriteIcon className={classes.menuIcons} /> Favorites{' '}
           </Link>
         </MenuItem>

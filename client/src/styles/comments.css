@@ -3,9 +3,14 @@
 }
 
 hr {
-  border-top: 1px solid #3c5be6;
+  border-top: 1px solid #3c4b86;
 }
 
 #panel1bh-content > div > ul.MuiList-root > li > button > span.MuiIconButton-label > svg {
   color: #3c4b86;
+}
+
+#panel1bh-content > div > ul.MuiList-root > li > button {
+  padding: 10px;
+  margin: 0;
 }

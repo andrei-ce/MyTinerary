@@ -5,11 +5,14 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import Activity from './Activity';
-import '../styles/itinerary.css';
 import Comment from './Comment';
 import CommentField from './CommentField';
 import { connect } from 'react-redux';
+import { getComments } from '../store/actions/commentActions';
+import '../styles/itinerary.css';
 
 const styles = (theme) => ({
   root: {
@@ -38,14 +41,29 @@ const styles = (theme) => ({
 });
 
 class Itinerary extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      favorite: false
+    };
+  }
+
   handleChange = (itineraryId) => {
     this.props.changeExpanded(itineraryId);
+    this.props.getComments(itineraryId);
+  };
+
+  //will take an itinerary after! Need to add it to the list of favorites on the front end (id would be sent to mongodb anyways and when user log in again it will load again)
+  handleFavorite = (itineraryId) => {
+    console.log(itineraryId);
+    this.setState({ favorite: !this.state.favorite });
   };
 
   render() {
-    const { classes, expanded, isAuthenticated } = this.props;
+    const { classes, expanded, isAuthenticated, comments } = this.props;
     const { _id, title, img, duration, description, price, rating } = this.props.itinerary;
-    console.log(this.props);
+    console.log(this.props.comments);
     return (
       <div className={classes.root}>
         <ExpansionPanel expanded={_id === expanded} onChange={() => this.handleChange(_id)}>
@@ -62,6 +80,11 @@ class Itinerary extends Component {
             <Typography className={classes.secondaryHeading}>
               {duration} | {price} | Rating: {rating}
             </Typography>
+            {this.state.favorite ? (
+              <FavoriteIcon onClick={() => this.handleFavorite(_id)} />
+            ) : (
+              <FavoriteBorderIcon onClick={() => this.handleFavorite(_id)} />
+            )}
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className='Itinerary-details'>
             {_id === expanded ? (
@@ -70,8 +93,14 @@ class Itinerary extends Component {
             <Typography className='Itinerary-description'>{description}</Typography>
             <h4 className={classes.title}> Comments </h4>
             <hr />
-            <Comment></Comment>
-            {isAuthenticated ? <CommentField itinerary_id={expanded}></CommentField> : null}
+            {_id === expanded
+              ? comments.map((comment) => {
+                  return <Comment key={comment._id} comment={comment} />;
+                })
+              : null}
+            {isAuthenticated && _id === expanded ? (
+              <CommentField itinerary_id={expanded}></CommentField>
+            ) : null}
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </div>
@@ -81,8 +110,10 @@ class Itinerary extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: state.users.isAuthenticated
+    isAuthenticated: state.users.isAuthenticated,
+    isFetching: state.comments.isFetching,
+    comments: state.comments.comments
   };
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(Itinerary));
+export default connect(mapStateToProps, { getComments })(withStyles(styles)(Itinerary));

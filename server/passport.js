@@ -6,13 +6,14 @@ const passport = require('passport');
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // HAY QUE USAR AUTHORIZATION en key y 'Bearer + token' en value
-  secretOrKey: config.get('jwtSecret') // need to be called opts.secretOrKey
+  secretOrKey: config.get('jwtSecret') // needs to be called opts.secretOrKey
 };
 
 module.exports = passport.use(
   new JwtStrategy(opts, (jwt_payload, done) => {
     User.findById(jwt_payload.user.id)
       .select('-password')
+      .populate('favorites') //populate favorites from itinerary ids to itinerary objects
       .then((user) => {
         if (user) {
           return done(null, user);

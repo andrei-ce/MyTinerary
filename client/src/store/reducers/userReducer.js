@@ -12,8 +12,7 @@ import {
 const initState = {
   isFetching: false,
   isAuthenticated: false,
-  user: null,
-  token: localStorage.getItem('token')
+  user: null
 };
 
 const userReducer = (state = initState, action) => {
@@ -25,7 +24,6 @@ const userReducer = (state = initState, action) => {
     // Login OK = this will only return a token
     case SUCCESS_REGISTER_USER:
     case SUCCESS_LOGIN_USER:
-      console.log(payload);
       localStorage.setItem('token', payload.token);
       return { ...state, isFetching: false }; //no need for ...payload in the return. not using it as state or props, saving it on local storage
     case FAIL_REGISTER_USER:
@@ -36,6 +34,7 @@ const userReducer = (state = initState, action) => {
       return { ...state, token: null, isAuthenticated: false, isFetching: false };
     //this is to load user info! So we need to use payload because the reponse is a user object
     // finish this action below
+    // FAVE: return {...state, user.favourites : [action.payload, ...state.user.favourites]}
     case AUTH_USER:
       return {
         ...state,

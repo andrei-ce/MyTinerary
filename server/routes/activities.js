@@ -1,6 +1,5 @@
 const express = require('express');
 const actModel = require('../model/actModel');
-const itineraryModel = require('../model/itineraryModel');
 const router = express.Router();
 
 router.get('/test', (req, res) => {
@@ -23,7 +22,7 @@ router.get('/:itinerary_id', (req, res) => {
 // ==================== NOT WORKING ====================
 // @route   POST /activities/:itinerary_id
 // @descr   Post an activity, given you have the itinerary id
-// @access  Public (should be private)
+// @access  Public (should be private) <--------
 router.post('/:itinerary_id', (req, res) => {
   const newActivity = new actModel({
     name: req.body.name,

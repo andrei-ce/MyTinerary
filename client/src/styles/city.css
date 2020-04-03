@@ -23,12 +23,17 @@ img.loaded {
   display: none;
 }
 
+.Cities {
+  margin-top: 45px;
+}
+
 .Cities-cityList {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   width: 95%;
   margin: 0 auto;
+  margin-bottom: 50px;
 }
 
 .Cities-cityCard {

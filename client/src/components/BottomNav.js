@@ -8,28 +8,31 @@ import HomeIcon from '@material-ui/icons/Home';
 import { withRouter, Link } from 'react-router-dom';
 import '../styles/bottomNav.css';
 
-
 class BottomNav extends Component {
-
   goBack = () => this.props.history.goBack();
 
   render() {
     return (
-      <BottomNavigation className="BottomNav">
+      <BottomNavigation className='BottomNav'>
         <div>
-          <BottomNavigationAction label="Back" value="back" icon={<ArrowBackIosIcon />} onClick={this.goBack} />
+          <BottomNavigationAction
+            label='Back'
+            value='back'
+            icon={<ArrowBackIosIcon />}
+            onClick={this.goBack}
+          />
         </div>
-        <Link to="/">
-          <BottomNavigationAction label="Home" value="home" icon={<HomeIcon />} />
+        <Link to='/'>
+          <BottomNavigationAction label='Home' value='home' icon={<HomeIcon />} />
         </Link>
-        <Link to="/Cities">
-          <BottomNavigationAction label="Cities" value="cities" icon={<LocationCityIcon />} />
+        <Link to='/cities'>
+          <BottomNavigationAction label='Cities' value='cities' icon={<LocationCityIcon />} />
         </Link>
-        <div>
-          <BottomNavigationAction label="Favorites" value="favorites" icon={<FavoriteIcon />} />
-        </div>
+        <Link to='/favorites'>
+          <BottomNavigationAction label='Favorites' value='favorites' icon={<FavoriteIcon />} />
+        </Link>
       </BottomNavigation>
-    )
+    );
   }
 }
 

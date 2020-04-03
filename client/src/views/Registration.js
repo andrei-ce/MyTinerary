@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import '../styles/registration.css';
 import RegisterForm from '../components/RegisterForm';
 import Container from '@material-ui/core/Container';
+import '../styles/registration.css';
 
 export default class Registration extends Component {
   render() {

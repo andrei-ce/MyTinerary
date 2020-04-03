@@ -1,8 +1,17 @@
 .Itineraries-CityName {
   color: #353b53;
-  margin: 0;
+  margin: 45px 0 0 0;
   padding: 10px 0;
   text-align: center;
+}
+
+.Itineraries {
+  background-color: #ebebeb;
+}
+
+.Itineraries-itineraryList {
+  margin-bottom: 50px;
+  padding-bottom: 30px;
 }
 
 hr {
@@ -52,6 +61,10 @@ div.Itinerary-img {
 
 #panel1bh-header span.MuiIconButton-label > svg {
   color: grey;
+}
+
+#panel1bh-header > div.MuiExpansionPanelSummary-content > svg {
+  color: #3c4b86;
 }
 
 #panel1bh-content > div {

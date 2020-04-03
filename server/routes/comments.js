@@ -34,13 +34,13 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     //extract all info from body
-    const { text, itinerary_id, user_id } = req.body;
+    const { text, itinerary_id, user } = req.body;
 
     try {
       let comment = new Comment({
         text,
         itinerary_id,
-        user_id
+        user
       });
 
       console.log(comment);
@@ -61,7 +61,7 @@ router.post(
 router.get('/:itinerary_id', async (req, res) => {
   try {
     let id = req.params.itinerary_id;
-    const comments = await Comment.find({ itinerary_id: id }).populate('user_id', [
+    const comments = await Comment.find({ itinerary_id: id }).populate('user', [
       'avatar',
       'username'
     ]);

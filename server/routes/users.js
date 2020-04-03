@@ -44,7 +44,6 @@ router.post(
       //format is only not to show errors.errors[{}] - shows errors[{}]
       return res.status(400).json({ errors: errors.array() });
     }
-
     //HANDLE USERNAME: needs to be unique
     const { username, email, password, firstName, lastName, country } = req.body;
     try {
@@ -53,14 +52,12 @@ router.post(
       if (userExists || emailExists) {
         return res.status(400).json({ errors: [{ msg: 'Username or email already taken' }] });
       }
-
       // Get users ravatar from gravatar
       const avatar = gravatar.url(email, {
         s: '80', //sets size
         r: 'pg', //filters naked people
         d: 'mm' //sets default image if doesnt exist already
       });
-
       //Create instance of user to save if afterwards
       let user = new User({
         username,
@@ -71,21 +68,17 @@ router.post(
         lastName,
         country
       });
-
       //encrypt password
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
-
       //save user with encrypted password, following schema
       await user.save();
-
       //set up to return jwt on front end
       const payload = {
         user: {
           id: user.id
         }
       };
-
       //use user id to generate token, using jwtSecret, optional configs (expiration)
       jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
         //if no error, return jwtoken to front-end so user can be logged in right away
@@ -130,6 +123,7 @@ router.post(
       if (!isMatch) {
         return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] });
       }
+
       //set up to return jwt on front end
       const payload = {
         user: {
@@ -146,7 +140,7 @@ router.post(
       console.log(`User ${user.username} logged in`);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server internal erroawr');
+      res.status(500).send('Server internal error' + err);
     }
   }
 );
@@ -154,8 +148,34 @@ router.post(
 // @route   GET /users/auth
 // @descr   receives a token and returns a user (detailed in the middleware file passport.js)
 // @access  Private
-router.get('/auth', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/auth', passport.authenticate('jwt', { session: false }), async (req, res) => {
   res.json(req.user);
+});
+
+// @route   PUT /users/favorites
+// @descr   receives an itinerary_id and adds it to users.favorites, or removes if it exists
+// @access  Private
+router.put('/favorites', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  const { itinerary_id, user_id } = req.body;
+  try {
+    //save user in a variable to run if statement
+    let user = await User.findOne({ _id: user_id });
+    //check if this itinerary is already favorited by user
+    if (user.favorites.includes(itinerary_id)) {
+      //remove itinerary $pull
+      console.log('favorite already exists, removing...');
+      await User.update({ _id: user_id }, { $pull: { favorites: itinerary_id } });
+      res.send({ msg: 'Itinerary removed from favorites' });
+    } else {
+      //add itinerary $push
+      console.log('adding itinerary to favorites...');
+      await User.update({ _id: user_id }, { $push: { favorites: itinerary_id } });
+      res.send({ msg: 'Itinerary added to favorites' });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server internal error' + err);
+  }
 });
 
 module.exports = router;

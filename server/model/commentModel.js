@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
-  user_id: {
-    //this way if a user deletes its account it will delete all of its posts?
+  user: {
+    //this way if a user deletes its account, it will delete all of its posts?
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
     required: true
