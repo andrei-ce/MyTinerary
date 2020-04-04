@@ -21,20 +21,12 @@ router.get('/test', (req, res) => {
 router.post(
   '/register',
   [
-    check('username', 'Please enter a valid username')
-      .not()
-      .isEmpty(),
+    check('username', 'Please enter a valid username').not().isEmpty(),
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Please enter a password of minimum 6 chars').isLength({ min: 6 }),
-    check('firstName', 'Please enter a first name')
-      .not()
-      .isEmpty(),
-    check('lastName', 'Please enter a last name')
-      .not()
-      .isEmpty(),
-    check('country', 'Please a country')
-      .not()
-      .isEmpty()
+    check('firstName', 'Please enter a first name').not().isEmpty(),
+    check('lastName', 'Please enter a last name').not().isEmpty(),
+    check('country', 'Please a country').not().isEmpty(),
   ],
   async (req, res) => {
     //HANDLE ERRORS: check if any of the above coused errors
@@ -56,7 +48,7 @@ router.post(
       const avatar = gravatar.url(email, {
         s: '80', //sets size
         r: 'pg', //filters naked people
-        d: 'mm' //sets default image if doesnt exist already
+        d: 'mm', //sets default image if doesnt exist already
       });
       //Create instance of user to save if afterwards
       let user = new User({
@@ -66,7 +58,7 @@ router.post(
         password,
         firstName,
         lastName,
-        country
+        country,
       });
       //encrypt password
       const salt = await bcrypt.genSalt(10);
@@ -76,8 +68,8 @@ router.post(
       //set up to return jwt on front end
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
       //use user id to generate token, using jwtSecret, optional configs (expiration)
       jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
@@ -100,7 +92,7 @@ router.post(
   '/login',
   [
     check('email', 'Email is required').isEmail(),
-    check('password', 'Password is required').exists()
+    check('password', 'Password is required').exists(),
   ],
   async (req, res) => {
     //HANDLE ERRORS: check if any of the above coused errors
@@ -127,8 +119,8 @@ router.post(
       //set up to return jwt on front end
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
 
       //use user id to generate token, using jwtSecret, optional configs (expiration)
@@ -164,13 +156,13 @@ router.put('/favorites', passport.authenticate('jwt', { session: false }), async
     if (user.favorites.includes(itinerary_id)) {
       //remove itinerary $pull
       console.log('favorite already exists, removing...');
-      await User.update({ _id: user_id }, { $pull: { favorites: itinerary_id } });
-      res.send({ msg: 'Itinerary removed from favorites' });
+      await User.updateOne({ _id: user_id }, { $pull: { favorites: itinerary_id } });
+      res.send({ msg: 'REMOVE' });
     } else {
       //add itinerary $push
       console.log('adding itinerary to favorites...');
-      await User.update({ _id: user_id }, { $push: { favorites: itinerary_id } });
-      res.send({ msg: 'Itinerary added to favorites' });
+      await User.updateOne({ _id: user_id }, { $push: { favorites: itinerary_id } });
+      res.send({ msg: 'ADD' });
     }
   } catch (err) {
     console.error(err.message);

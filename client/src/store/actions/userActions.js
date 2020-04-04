@@ -7,8 +7,9 @@ import {
   FAIL_LOGIN_USER,
   AUTH_USER,
   LOGOUT_USER,
-  FAVE_ITINERARY,
-  FAVE_FAIL
+  ADD_FAVE,
+  REMOVE_FAVE,
+  FAVE_FAIL,
 } from './types';
 import axios from 'axios';
 
@@ -22,7 +23,7 @@ export const registerUser = ({
   password,
   firstName,
   lastName,
-  country
+  country,
 }) => async (dispatch) => {
   //prepate body and headers of POST request
   const body = {
@@ -32,7 +33,7 @@ export const registerUser = ({
     password: password,
     firstName: firstName,
     lastName: lastName,
-    country: country
+    country: country,
   };
 
   try {
@@ -40,13 +41,13 @@ export const registerUser = ({
     const res = await axios.post('http://localhost:5000/users/register/', body);
     dispatch({
       type: SUCCESS_REGISTER_USER,
-      payload: res.data //this is the token we are sending back with JWT
+      payload: res.data, //this is the token we are sending back with JWT
     });
     dispatch(authUser());
   } catch (err) {
     console.log(err);
     dispatch({
-      type: FAIL_REGISTER_USER
+      type: FAIL_REGISTER_USER,
     });
   }
 };
@@ -63,13 +64,13 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
     const res = await axios.post('http://localhost:5000/users/login/', body);
     dispatch({
       type: SUCCESS_LOGIN_USER,
-      payload: res.data //this is the token we are sending back with JWT
+      payload: res.data, //this is the token we are sending back with JWT
     });
     dispatch(authUser());
   } catch (err) {
     console.log(err);
     dispatch({
-      type: FAIL_LOGIN_USER
+      type: FAIL_LOGIN_USER,
     });
   }
 };
@@ -81,14 +82,14 @@ export const authUser = () => async (dispatch) => {
   const config = {
     headers: {
       'Content-type': 'application/json', //not sure this is necessary for json
-      Authorization: 'Bearer ' + localStorage.getItem('token') // if there isnt a token then it will read 'Bearer undefined'
-    }
+      Authorization: 'Bearer ' + localStorage.getItem('token'), // if there isnt a token then it will read 'Bearer undefined'
+    },
   };
   try {
     const res = await axios.get('http://localhost:5000/users/auth/', config);
     dispatch({
       type: AUTH_USER,
-      payload: res.data //this is the user that passport.js sends back, which will go into state.user.user (i think)
+      payload: res.data, //this is the user that passport.js sends back, which will go into state.user.user (i think)
     });
   } catch (err) {
     console.log(err);
@@ -107,10 +108,26 @@ export const logoutUser = () => (dispatch) => {
 
 export const faveItinerary = ({ itinerary, user_id }) => async (dispatch) => {
   const itinerary_id = itinerary._id;
+  console.log(itinerary_id);
   const body = { itinerary_id, user_id };
+  const config = {
+    headers: {
+      'Content-type': 'application/json', //not sure this is necessary for json
+      Authorization: 'Bearer ' + localStorage.getItem('token'), // if there isnt a token then it will read 'Bearer undefined'
+    },
+  };
+  console.log(body);
   try {
-    await axios.put('http://localhost:5000/users', body);
-    dispatch({ type: FAVE_ITINERARY, payload: itinerary });
+    const operation = await axios.put('http://localhost:5000/users/favorites', body, config);
+    let msg = operation.data.msg;
+    console.log(msg);
+    if (msg === 'ADD') {
+      dispatch({ type: ADD_FAVE, payload: itinerary });
+      console.log('dispatching ADD_FAVE');
+    } else if (msg === 'REMOVE') {
+      dispatch({ type: REMOVE_FAVE, payload: itinerary });
+      console.log('dispatching REMOVE_FAVE');
+    }
   } catch (err) {
     dispatch({ type: FAVE_FAIL });
     console.log(err);

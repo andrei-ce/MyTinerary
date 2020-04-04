@@ -6,13 +6,16 @@ import {
   SUCCESS_LOGIN_USER,
   FAIL_LOGIN_USER,
   AUTH_USER,
-  LOGOUT_USER
+  LOGOUT_USER,
+  ADD_FAVE,
+  REMOVE_FAVE,
+  FAVE_FAIL,
 } from '../actions/types';
 
 const initState = {
   isFetching: false,
   isAuthenticated: false,
-  user: null
+  user: null,
 };
 
 const userReducer = (state = initState, action) => {
@@ -34,14 +37,6 @@ const userReducer = (state = initState, action) => {
       return { ...state, token: null, isAuthenticated: false, isFetching: false };
     //this is to load user info! So we need to use payload because the reponse is a user object
     // finish this action below
-    // FAVE: return {...state, user.favourites : [action.payload, ...state.user.favourites]}
-    case AUTH_USER:
-      return {
-        ...state,
-        user: payload,
-        isAuthenticated: true
-      };
-    // add logout action
     case LOGOUT_USER:
       if (localStorage.getItem('token')) {
         localStorage.removeItem('token');
@@ -51,8 +46,32 @@ const userReducer = (state = initState, action) => {
         user: null,
         token: null,
         isAuthenticated: false,
-        isLoading: false
+        isLoading: false,
       };
+    case AUTH_USER:
+      return {
+        ...state,
+        user: payload,
+        isAuthenticated: true,
+      };
+    case ADD_FAVE:
+      console.log(payload);
+      return {
+        ...state,
+        user: { ...state.user, favorites: [...state.user.favorites, payload] },
+      };
+    case REMOVE_FAVE:
+      console.log(payload);
+      var removeId = payload._id;
+      let newFavorites = state.user.favorites.filter((it) => it._id !== removeId);
+      console.log(newFavorites);
+      return {
+        ...state,
+        user: { ...state.user, favorites: newFavorites },
+      };
+    // FAVE: return {...state, user.favourites : [action.payload, ...state.user.favourites]}
+    case FAVE_FAIL:
+      return state;
     default:
       return state;
   }

@@ -22,7 +22,8 @@ export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const AUTH_USER = 'AUTH_USER';
 
-export const FAVE_ITINERARY = 'FAVE_ITINERARY';
+export const ADD_FAVE = 'ADD_FAVE';
+export const REMOVE_FAVE = 'REMOVE_FAVE';
 export const FAVE_FAIL = 'GET_FAVORITES';
 
 //Comment actions
