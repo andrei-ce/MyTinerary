@@ -22,10 +22,8 @@ router.post(
     passport.authenticate('jwt', { session: false }),
     [
       //check if there is something to comment
-      check('text', 'Please enter a comment text')
-        .not()
-        .isEmpty()
-    ]
+      check('text', 'Please enter a comment text').not().isEmpty(),
+    ],
   ],
   async (req, res) => {
     //validate that there are no errors (if yes, return the .array() method in errors array)
@@ -40,7 +38,7 @@ router.post(
       let comment = new Comment({
         text,
         itinerary_id,
-        user
+        user,
       });
 
       console.log(comment);
@@ -63,7 +61,7 @@ router.get('/:itinerary_id', async (req, res) => {
     let id = req.params.itinerary_id;
     const comments = await Comment.find({ itinerary_id: id }).populate('user', [
       'avatar',
-      'username'
+      'username',
     ]);
 
     //at some point use moment.js to format date
@@ -74,9 +72,22 @@ router.get('/:itinerary_id', async (req, res) => {
   }
 });
 
-// @route   DELETE /comments/
+// @route   DELETE /comments/:comment_id
 // @descr   delete a comment by its id IF you are the same user
 // @access  Private
+router.delete(
+  '/',
+  //authenticate user (private route)
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    try {
+      const comment = await Comment.findById(req.params.id);
+      //check if user is the creator
+    } catch (error) {
+      res.status(500).send('Server internal error!' + error);
+    }
+  }
+);
 
 // @route   PUT /comments/
 // @descr   edit a comment by its id IF you are the same user
