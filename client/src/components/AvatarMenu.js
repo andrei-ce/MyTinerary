@@ -13,8 +13,8 @@ const styles = (theme) => ({
   root: {
     display: 'flex',
     '& > *': {
-      margin: theme.spacing(1)
-    }
+      margin: theme.spacing(1),
+    },
   },
   avatar: {
     color: 'white',
@@ -27,25 +27,25 @@ const styles = (theme) => ({
     backgroundSize: 'cover',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   usernameTag: {
     paddingBottom: 0,
-    fontSize: 16
+    fontSize: 16,
   },
   menuItem: {
-    width: 200
+    width: 200,
   },
   menuIcon: {
-    paddingRight: 10
-  }
+    paddingRight: 10,
+  },
 });
 
 class AvatarDropDownComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      anchorEl: null
+      anchorEl: null,
     };
   }
 
@@ -65,7 +65,6 @@ class AvatarDropDownComponent extends Component {
   render() {
     let { classes, isAuthenticated } = this.props;
     let userData = isAuthenticated ? this.props.user : { avatar: 'none', username: 'guest' };
-    console.log(this.props);
     return (
       <div>
         <div className={classes.root}>
@@ -122,7 +121,7 @@ class AvatarDropDownComponent extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.users.user,
-    isAuthenticated: state.users.isAuthenticated
+    isAuthenticated: state.users.isAuthenticated,
   };
 };
 

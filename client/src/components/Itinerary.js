@@ -51,7 +51,15 @@ class Itinerary extends Component {
     };
   }
 
-  componentWillReceiveProps() {
+  componentDidMount() {
+    if (this.props.user !== null) {
+      let thisItineraryId = this.props.itinerary._id;
+      if (this.props.user.favorites.map((fave) => fave._id).includes(thisItineraryId)) {
+        this.setState({ favorite: true });
+      }
+    }
+  }
+  UNSAFE_componentWillReceiveProps() {
     if (this.props.user !== null) {
       let thisItineraryId = this.props.itinerary._id;
       if (this.props.user.favorites.map((fave) => fave._id).includes(thisItineraryId)) {
@@ -77,7 +85,6 @@ class Itinerary extends Component {
     const { classes, expanded, isAuthenticated, comments } = this.props;
     const { _id, title, img, duration, description, price, rating } = this.props.itinerary;
     const user_id = this.props.user === null ? null : this.props.user._id;
-    console.log(this.props);
     return (
       <div className={classes.root}>
         <ExpansionPanel expanded={_id === expanded} onChange={() => this.handleExpand(_id)}>

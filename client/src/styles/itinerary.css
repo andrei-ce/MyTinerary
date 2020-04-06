@@ -19,7 +19,7 @@ hr {
 }
 
 .Itineraries {
-  height: 100%;
+  height: 90vh;
   width: 97%;
   max-width: 1000px;
   margin: auto;
@@ -80,4 +80,4 @@ div.Itinerary-img {
   margin-top: 55px;
 }
 
-/* ================= MUI COMPONENTS ================= */
+/* ================= END MUI COMPONENTS ================= */

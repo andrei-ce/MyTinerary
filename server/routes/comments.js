@@ -1,15 +1,32 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../model/userModel');
 const Comment = require('../model/commentModel');
 const { check, validationResult } = require('express-validator');
 const passport = require('passport');
+const moment = require('moment');
 
 // @route   GET /comments/test
 // @descr   test route
 // @access  Public
 router.get('/test', (req, res) => {
   res.send({ msg: 'Comments test route.' });
+});
+
+// @route   GET /comments/:itinerary_id
+// @descr   get all comments pertaining to that itinerary ID
+// @access  Public
+router.get('/:itinerary_id', async (req, res) => {
+  try {
+    let id = req.params.itinerary_id;
+    const comments = await Comment.find({ itinerary_id: id }).populate('user', [
+      'avatar',
+      'username',
+    ]);
+
+    res.json({ comments });
+  } catch (error) {
+    res.status(500).send('Server internal error: ' + error);
+  }
 });
 
 // @route   POST /comments/
@@ -41,50 +58,41 @@ router.post(
         user,
       });
 
-      console.log(comment);
-
       await comment.save();
 
       res.send({ msg: 'Comment posted!' });
     } catch (err) {
       console.log(err);
-      res.status(500).send('Server internal error!', error);
+      res.status(500).send('Server internal error: ', error);
     }
   }
 );
-
-// @route   GET /comments/:itinerary_id
-// @descr   get all comments pertaining to that itinerary ID
-// @access  Public
-router.get('/:itinerary_id', async (req, res) => {
-  try {
-    let id = req.params.itinerary_id;
-    const comments = await Comment.find({ itinerary_id: id }).populate('user', [
-      'avatar',
-      'username',
-    ]);
-
-    //at some point use moment.js to format date
-
-    res.json({ comments });
-  } catch (error) {
-    res.status(500).send('Server internal error!' + error);
-  }
-});
 
 // @route   DELETE /comments/:comment_id
 // @descr   delete a comment by its id IF you are the same user
 // @access  Private
 router.delete(
-  '/',
+  '/:id',
   //authenticate user (private route)
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
+    const { user_id } = req.body;
+    const comment_id = req.params.id;
     try {
-      const comment = await Comment.findById(req.params.id);
+      const commentToDelete = await Comment.findById(comment_id);
+      if (!commentToDelete) {
+        res.status(404).send('Comment not found');
+      }
       //check if user is the creator
+      if (commentToDelete.user.toString() === user_id) {
+        await Comment.findByIdAndDelete(comment_id);
+      } else {
+        res.status(401).send('User not authorized');
+      }
+      res.send({ msg: 'Comment successfully deleted: ' + commentToDelete.text });
+      console.log('Comment successfully deleted!');
     } catch (error) {
-      res.status(500).send('Server internal error!' + error);
+      res.status(500).send('Server internal error: ' + error);
     }
   }
 );

@@ -17,14 +17,14 @@ import '../styles/comments.css';
 const styles = (theme) => ({
   root: {
     width: '100%',
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
   },
   divider: {
-    marginRight: 10
+    marginRight: 10,
   },
   button: {
-    margin: theme.spacing(1)
-  }
+    margin: theme.spacing(1),
+  },
 });
 
 class CommentField extends Component {
@@ -34,7 +34,7 @@ class CommentField extends Component {
     this.state = {
       text: '',
       user: '',
-      itinerary_id: ''
+      itinerary_id: '',
     };
   }
 
@@ -46,7 +46,7 @@ class CommentField extends Component {
     evt.preventDefault();
     await this.setState({
       itinerary_id: this.props.itinerary_id,
-      user: this.props.user._id
+      user: this.props.user._id,
     });
     let { itinerary_id, user, text } = this.state;
     await this.props.postComment(itinerary_id, user, text);
@@ -55,7 +55,6 @@ class CommentField extends Component {
 
   render() {
     const { classes, user } = this.props;
-    console.log(this.props);
     return (
       <List className={classes.root}>
         <ListItem>
@@ -91,7 +90,7 @@ class CommentField extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.users.user
+    user: state.users.user,
   };
 };
 

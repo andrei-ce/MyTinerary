@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import '../styles/carousel.css';
 
 export default class PopularItineraries extends Component {
   render() {
@@ -14,13 +13,13 @@ export default class PopularItineraries extends Component {
       slidesToShow: 1,
       speed: 500,
       rows: 2,
-      slidesPerRow: 1
+      slidesPerRow: 1,
     };
     return (
-      <div className='Carousel'>
+      <div>
         <p>Populer Itineraries</p>
         <Slider {...sliderSettings}>
-          <div className='Carousel-item'>
+          <div>
             <img src='https://source.unsplash.com/N6HTCyN50p0' alt='barcelona' />
           </div>
           <div className='Carousel-item'>

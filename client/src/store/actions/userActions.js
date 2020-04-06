@@ -108,7 +108,6 @@ export const logoutUser = () => (dispatch) => {
 
 export const faveItinerary = ({ itinerary, user_id }) => async (dispatch) => {
   const itinerary_id = itinerary._id;
-  console.log(itinerary_id);
   const body = { itinerary_id, user_id };
   const config = {
     headers: {
