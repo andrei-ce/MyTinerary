@@ -95,7 +95,8 @@ h3 {
 /* ============ FAVORITES VIEW =============== */
 .Favorites {
   background-color: white;
-  height: 105vh;
+  height: 100%;
+  min-height: 100vh;
   width: 97%;
   max-width: 1000px;
   margin: 50px auto 50px auto;

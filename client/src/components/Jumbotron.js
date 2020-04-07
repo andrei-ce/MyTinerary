@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography } from '@material-ui/core/';
 import { Link } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
 import WorkIcon from '@material-ui/icons/Work';
 import FlightIcon from '@material-ui/icons/Flight';
 import BeachAccessIcon from '@material-ui/icons/BeachAccess';
@@ -16,28 +17,28 @@ const styles = (theme) => ({
   root: {
     width: '88%',
     maxWidth: 600,
-    padding: 16
+    padding: 16,
   },
   innerContent: {
-    padding: 0
+    padding: 0,
   },
   button: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
   },
   title: {
     fontSize: 34,
     padding: 10,
-    lineHeight: 1
+    lineHeight: 1,
   },
   description: {
     fontSize: 16,
     display: 'block',
-    padding: '20px 0'
+    padding: '20px 0',
   },
   img: {
     height: 80,
-    width: 80
-  }
+    width: 80,
+  },
 });
 
 class Jumbotron extends Component {
@@ -72,6 +73,18 @@ class Jumbotron extends Component {
               Browse
             </Button>
           </Link>
+          <Grid container className='login-links'>
+            <Grid item xs>
+              <Link to='login' variant='body2' className='link top-margin'>
+                Login
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link to='registration' variant='body2' className='link top-margin'>
+                Sign Up
+              </Link>
+            </Grid>
+          </Grid>
         </CardContent>
       </Card>
     );

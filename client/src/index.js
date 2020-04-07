@@ -11,6 +11,7 @@ import thunk from 'redux-thunk';
 import rootReducer from './store/reducers/rootReducer';
 import { authUser } from './store/actions/userActions';
 
+//este es el metodo ue me permite hacer llamadas asincronas (utilizar axios en el action creator)
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 if (localStorage.getItem('token')) {
