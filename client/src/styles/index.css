@@ -83,6 +83,7 @@ h3 {
 
 #root > div > div.MuiGrid-root.Landing.MuiGrid-container div.icon-strip > svg {
   color: rgb(75, 75, 75);
+  font-size: 36px;
 }
 
 #root > div > div.MuiGrid-root.Landing.MuiGrid-container > div > div > div.MuiCardContent-root {

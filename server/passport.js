@@ -6,7 +6,7 @@ const passport = require('passport');
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // HAY QUE USAR AUTHORIZATION en key y 'Bearer + token' en value
-  secretOrKey: config.get('jwtSecret') // needs to be called opts.secretOrKey
+  secretOrKey: config.get('jwtSecret'), // needs to be called opts.secretOrKey
 };
 
 module.exports = passport.use(

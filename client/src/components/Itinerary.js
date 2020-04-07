@@ -143,15 +143,3 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, { getComments, faveItinerary })(
   withStyles(styles)(Itinerary)
 );
-
-// componentWillReceiveProps() {
-//   console.log('component is receiving props!');
-//   //check array this.props.user.favorites.includes(thisItineraryId)
-//   console.log(this.props.user);
-//   if (this.props.user !== null) {
-//     let thisItineraryId = this.props.itinerary._id;
-//     if (this.props.user.favorites.map((fave) => fave._id).includes(thisItineraryId)) {
-//       this.setState({ favorite: true });
-//     }
-//   }
-// }

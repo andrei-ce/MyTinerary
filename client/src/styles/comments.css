@@ -6,6 +6,28 @@ hr {
   border-top: 1px solid #3c4b86;
 }
 
+/* Comment buttons */
+#panel1bh-content > div > ul.MuiList-root > li > button.trash > span.MuiIconButton-label > svg {
+  color: rgb(179, 179, 179);
+}
+
+#panel1bh-content
+  > div
+  > ul.MuiList-root
+  > li
+  > button.trash
+  > span.MuiIconButton-label
+  > svg:hover,
+#panel1bh-content
+  > div
+  > ul.MuiList-root
+  > li
+  > button.trash
+  > span.MuiIconButton-label
+  > svg:active {
+  color: rgb(162, 11, 11);
+}
+
 #panel1bh-content > div > ul.MuiList-root > li > button > span.MuiIconButton-label > svg {
   color: #3c4b86;
 }

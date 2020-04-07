@@ -1,8 +1,14 @@
-import { GET_COMMENTS, REQUEST_COMMENTS, REQ_POST_COMMENT, POST_COMMENT } from '../actions/types';
+import {
+  GET_COMMENTS,
+  REQUEST_COMMENTS,
+  REQ_POST_COMMENT,
+  POST_COMMENT,
+  DELETE_COMMENT,
+} from '../actions/types';
 
 const initState = {
   ifFetching: false,
-  comments: []
+  comments: [],
 };
 
 const commentReducer = (state = initState, action) => {
@@ -15,6 +21,8 @@ const commentReducer = (state = initState, action) => {
       return { ...state, isFetching: true };
     case POST_COMMENT:
       return { ...state, isFetching: false };
+    case DELETE_COMMENT:
+      return { ...state };
     default:
       return state;
   }

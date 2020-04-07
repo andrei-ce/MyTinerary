@@ -115,17 +115,14 @@ export const faveItinerary = ({ itinerary, user_id }) => async (dispatch) => {
       Authorization: 'Bearer ' + localStorage.getItem('token'), // if there isnt a token then it will read 'Bearer undefined'
     },
   };
-  console.log(body);
   try {
     const operation = await axios.put('http://localhost:5000/users/favorites', body, config);
     let msg = operation.data.msg;
     console.log(msg);
     if (msg === 'ADD') {
       dispatch({ type: ADD_FAVE, payload: itinerary });
-      console.log('dispatching ADD_FAVE');
     } else if (msg === 'REMOVE') {
       dispatch({ type: REMOVE_FAVE, payload: itinerary });
-      console.log('dispatching REMOVE_FAVE');
     }
   } catch (err) {
     dispatch({ type: FAVE_FAIL });

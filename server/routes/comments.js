@@ -72,12 +72,12 @@ router.post(
 // @descr   delete a comment by its id IF you are the same user
 // @access  Private
 router.delete(
-  '/:id',
+  '/:comment_id/:user_id',
   //authenticate user (private route)
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
-    const { user_id } = req.body;
-    const comment_id = req.params.id;
+    const comment_id = req.params.comment_id;
+    const user_id = req.params.user_id;
     try {
       const commentToDelete = await Comment.findById(comment_id);
       if (!commentToDelete) {
@@ -87,7 +87,7 @@ router.delete(
       if (commentToDelete.user.toString() === user_id) {
         await Comment.findByIdAndDelete(comment_id);
       } else {
-        res.status(401).send('User not authorized');
+        res.status(401).send('User not authorized!!!');
       }
       res.send({ msg: 'Comment successfully deleted: ' + commentToDelete.text });
       console.log('Comment successfully deleted!');
