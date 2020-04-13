@@ -18,6 +18,7 @@ const styles = (theme) => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
+    wordWrap: 'break-word',
   },
   divider: {
     marginRight: 10,
@@ -82,6 +83,7 @@ class Comment extends Component {
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
     comments: state.comments.comments,

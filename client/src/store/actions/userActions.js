@@ -106,6 +106,9 @@ export const logoutUser = () => (dispatch) => {
   }
 };
 
+// =========================================
+// ------------ FAVE ITINERARY -------------
+// =========================================
 export const faveItinerary = ({ itinerary, user_id }) => async (dispatch) => {
   const itinerary_id = itinerary._id;
   const body = { itinerary_id, user_id };

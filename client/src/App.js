@@ -4,8 +4,8 @@ import Cities from './views/Cities';
 import Itineraries from './views/Itineraries';
 import Registration from './views/Registration';
 import Login from './views/Login';
-import Header from './components/Header';
-import BottomNav from './components/BottomNav';
+import NavTop from './components/NavTop';
+import NavBottom from './components/NavBottom';
 import Favorites from './views/Favorites';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className='App'>
-        <Header />
+        <NavTop />
         <Switch>
           <Route exact path='/' component={Landing} />
           <Route exact path='/cities' component={Cities} />
@@ -22,7 +22,7 @@ export default function App() {
           <Route exact path='/login' component={Login} />
           <Route exact path='/favorites' component={Favorites} />
         </Switch>
-        <BottomNav />
+        <NavBottom />
       </div>
     </BrowserRouter>
   );

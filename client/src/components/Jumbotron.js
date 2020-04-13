@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Card, CardContent, Typography } from '@material-ui/core/';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import WorkIcon from '@material-ui/icons/Work';
 import FlightIcon from '@material-ui/icons/Flight';
@@ -43,7 +44,7 @@ const styles = (theme) => ({
 
 class Jumbotron extends Component {
   render() {
-    const { classes } = this.props;
+    const { classes, isAuthenticated } = this.props;
     return (
       <Card className={classes.root}>
         <Typography className={classes.title} color='primary' gutterBottom>
@@ -73,22 +74,30 @@ class Jumbotron extends Component {
               Browse
             </Button>
           </Link>
-          <Grid container className='login-links'>
-            <Grid item xs>
-              <Link to='login' variant='body2' className='link top-margin'>
-                Login
-              </Link>
+          {!isAuthenticated ? (
+            <Grid container className='login-links'>
+              <Grid item xs>
+                <Link to='login' variant='body2' className='link top-margin'>
+                  Login
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to='registration' variant='body2' className='link top-margin'>
+                  Sign Up
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link to='registration' variant='body2' className='link top-margin'>
-                Sign Up
-              </Link>
-            </Grid>
-          </Grid>
+          ) : null}
         </CardContent>
       </Card>
     );
   }
 }
 
-export default withStyles(styles)(Jumbotron);
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.users.isAuthenticated,
+  };
+};
+
+export default connect(mapStateToProps)(withStyles(styles)(Jumbotron));

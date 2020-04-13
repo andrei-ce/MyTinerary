@@ -9,22 +9,42 @@ class Cities extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchText: ''
+      searchText: '',
     };
   }
-
-  handleSearch = (evt) => {
-    this.setState({
-      searchText: evt.target.value
-    });
-  };
 
   componentDidMount() {
     this.props.getCities();
   }
 
+  handleSearch = async (evt) => {
+    await this.setState({
+      searchText: evt.target.value,
+    });
+    this.checkResults();
+  };
+
+  checkResults = () => {
+    let cityResults = document.querySelector('.Cities-cityList');
+    let noResults = document.querySelector('#noResults');
+    cityResults.innerHTML === ''
+      ? (noResults.style.display = 'block')
+      : (noResults.style.display = 'none');
+  };
+
   render() {
     const { cities, isFetching } = this.props.cities;
+
+    const cityCard = cities
+      .filter((city) => city.name.toLowerCase().startsWith(this.state.searchText.toLowerCase()))
+      .map((city) => {
+        return (
+          <div key={city._id} className='Cities-cityCard'>
+            <City city={city} />
+          </div>
+        );
+      });
+
     return (
       <div className='Cities'>
         <div className='Cities-searchBar'>
@@ -36,19 +56,10 @@ class Cities extends Component {
           />
           <img src={loader} alt='loading' className={isFetching ? null : 'loaded'}></img>
         </div>
-        <div className='Cities-cityList'>
-          {cities
-            .filter((city) =>
-              city.name.toLowerCase().startsWith(this.state.searchText.toLowerCase())
-            )
-            .map((city) => {
-              return (
-                <div key={city._id} className='Cities-cityCard'>
-                  <City city={city} />
-                </div>
-              );
-            })}
+        <div id='noResults'>
+          <p>No matches to your search</p>
         </div>
+        <div className='Cities-cityList'>{cityCard}</div>
       </div>
     );
   }
@@ -57,7 +68,7 @@ class Cities extends Component {
 //map some of the data in the state of the Store as a Props in this component
 const mapStateToProps = (state) => {
   return {
-    cities: state.cities
+    cities: state.cities,
   };
 };
 
@@ -65,3 +76,17 @@ const mapStateToProps = (state) => {
 
 //connect is a higher order component that connects the component to the Store
 export default connect(mapStateToProps, { getCities })(Cities);
+
+// <div className='Cities-cityList'>
+// {cities
+//   .filter((city) =>
+//     city.name.toLowerCase().startsWith(this.state.searchText.toLowerCase())
+//   )
+//   .map((city) => {
+//     return (
+//       <div key={city._id} className='Cities-cityCard'>
+//         <City city={city} />
+//       </div>
+//     );
+//   })}
+// </div>

@@ -75,10 +75,11 @@ class Itinerary extends Component {
 
   handleFavorite = async (itinerary, user_id) => {
     await this.props.faveItinerary({
-      itinerary, //send itinerary -> to action -> to reducer as payload  -> to user state && also send itinerary_id  -> to action  -> axios
+      itinerary, //send itinerary -> to action -> to reducer as payload  -> to user state &&
+      //also send itinerary_id  -> to action  -> axios
       user_id, //send userID  -> to action  -> to axios
     });
-    this.setState({ favorite: !this.state.favorite });
+    this.setState({ favorite: !this.state.favorite }); //front end only*
   };
 
   render() {
