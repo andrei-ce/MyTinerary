@@ -73,7 +73,8 @@ class Itinerary extends Component {
     this.props.getComments(itineraryId);
   };
 
-  handleFavorite = async (itinerary, user_id) => {
+  handleFavorite = async (evt, itinerary, user_id) => {
+    await evt.stopPropagation();
     await this.props.faveItinerary({
       itinerary, //send itinerary -> to action -> to reducer as payload  -> to user state &&
       //also send itinerary_id  -> to action  -> axios
@@ -103,10 +104,12 @@ class Itinerary extends Component {
               {duration} | {price} | Rating: {rating}
             </Typography>
             {this.state.favorite ? (
-              <FavoriteIcon onClick={() => this.handleFavorite(this.props.itinerary, user_id)} />
+              <FavoriteIcon
+                onClick={(evt) => this.handleFavorite(evt, this.props.itinerary, user_id)}
+              />
             ) : (
               <FavoriteBorderIcon
-                onClick={() => this.handleFavorite(this.props.itinerary, user_id)}
+                onClick={(evt) => this.handleFavorite(evt, this.props.itinerary, user_id)}
               />
             )}
           </ExpansionPanelSummary>
