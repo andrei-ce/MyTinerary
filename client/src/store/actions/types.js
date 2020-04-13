@@ -11,9 +11,9 @@ export const REQUEST_ACT = 'REQUEST_ACT';
 export const GET_ACT = 'GET_ACT';
 
 //User actions
-export const WILL_REGISTER_USER = 'WILL_POST_USER';
-export const SUCCESS_REGISTER_USER = 'POST_USER';
-export const FAIL_REGISTER_USER = 'POST_USER';
+export const WILL_REGISTER_USER = 'WILL_REGISTER_USER';
+export const SUCCESS_REGISTER_USER = 'SUCCESS_REGISTER_USER';
+export const FAIL_REGISTER_USER = 'FAIL_REGISTER_USER';
 
 export const WILL_LOGIN_USER = 'WILL_LOGIN_USER';
 export const SUCCESS_LOGIN_USER = 'SUCCESS_LOGIN_USER';
@@ -33,3 +33,7 @@ export const REQUEST_COMMENTS = 'REQUEST_COMMENTS';
 export const REQ_POST_COMMENT = 'REQ_POST_COMMENT';
 export const POST_COMMENT = 'POST_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
+
+//Error moadal
+export const GET_ERRORS = 'GET_ERRORS';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';

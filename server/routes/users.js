@@ -32,7 +32,7 @@ router.post(
     //HANDLE ERRORS: check if any of the above coused errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log('hit an error');
+      console.log(error);
       //format is only not to show errors.errors[{}] - shows errors[{}]
       return res.status(400).json({ errors: errors.array() });
     }

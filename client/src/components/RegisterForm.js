@@ -18,24 +18,25 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormHelperText from '@material-ui/core/FormHelperText'; //maybe to give tips on password
+import ModalAlert from './ModalAlert';
 import '../styles/registration.css';
 
 const styles = (theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   margin: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
   },
   withoutLabel: {
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120
-  }
+    minWidth: 120,
+  },
 });
 
 class RegisterForm extends Component {
@@ -50,8 +51,9 @@ class RegisterForm extends Component {
       firstName: '',
       lastName: '',
       country: '',
+      modalState: false,
       termsConditions: false,
-      showPassword: false
+      showPassword: false,
     };
   }
 
@@ -71,9 +73,25 @@ class RegisterForm extends Component {
     this.setState({ termsConditions: !this.state.termsConditions });
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { avatar, username, password, email, firstName, lastName, country } = this.state;
-    this.props.registerUser({ avatar, username, password, email, firstName, lastName, country });
+    if (
+      avatar === '' ||
+      username === '' ||
+      password === '' ||
+      email === '' ||
+      firstName === '' ||
+      lastName === '' ||
+      country === ''
+    ) {
+      await this.handleModalAlert();
+    } else {
+      this.props.registerUser({ avatar, username, password, email, firstName, lastName, country });
+    }
+  };
+
+  handleModalAlert = () => {
+    this.setState({ modalState: !this.state.modalState });
   };
 
   render() {
@@ -86,7 +104,7 @@ class RegisterForm extends Component {
       firstName,
       lastName,
       country,
-      termsConditions
+      termsConditions,
     } = this.state;
 
     if (isAuthenticated) {
@@ -94,6 +112,13 @@ class RegisterForm extends Component {
     } else {
       return (
         <div className={classes.root}>
+          {this.state.modalState ? (
+            <ModalAlert
+              title={'Cannot register'}
+              msg={'Please enter all fields.'}
+              handleModalAlert={this.handleModalAlert}
+            />
+          ) : null}
           <div className='Form-avatar'>
             <p>Change Photo</p>
           </div>
@@ -226,7 +251,7 @@ class RegisterForm extends Component {
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.users.isAuthenticated,
-    isFetching: state.users.isFetching
+    isFetching: state.users.isFetching,
   };
 };
 

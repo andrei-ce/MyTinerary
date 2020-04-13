@@ -11,8 +11,31 @@ import {
   REMOVE_FAVE,
   FAVE_FAIL,
 } from './types';
+
+import { returnErrors, clearErrors } from '../actions/errActions';
+
 import axios from 'axios';
 
+// =========================================
+// -------------- AUTH USER  ---------------
+// =========================================
+export const authUser = () => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-type': 'application/json', //not sure this is necessary for json
+      Authorization: 'Bearer ' + localStorage.getItem('token'), // if there isnt a token then it will read 'Bearer undefined'
+    },
+  };
+  try {
+    const res = await axios.get('http://localhost:5000/users/auth/', config);
+    dispatch({
+      type: AUTH_USER,
+      payload: res.data, //this is the user that passport.js sends back, which will go into state.user.user (i think)
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 // =========================================
 // -------------- REGISTER -----------------
 // =========================================
@@ -75,26 +98,6 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
   }
 };
 
-// =========================================
-// -------------- AUTH USER  ---------------
-// =========================================
-export const authUser = () => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-type': 'application/json', //not sure this is necessary for json
-      Authorization: 'Bearer ' + localStorage.getItem('token'), // if there isnt a token then it will read 'Bearer undefined'
-    },
-  };
-  try {
-    const res = await axios.get('http://localhost:5000/users/auth/', config);
-    dispatch({
-      type: AUTH_USER,
-      payload: res.data, //this is the user that passport.js sends back, which will go into state.user.user (i think)
-    });
-  } catch (err) {
-    console.log(err);
-  }
-};
 // =========================================
 // ------------- LOGOUT USER  --------------
 // =========================================

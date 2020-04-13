@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { loginUser } from '../store/actions/userActions';
+import ModalAlert from '../components/ModalAlert';
 import '../styles/login.css';
 
 function Copyright() {
@@ -29,7 +30,7 @@ function Copyright() {
 
 const styles = (theme) => ({
   root: {
-    height: '100vh'
+    height: '100vh',
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
@@ -37,25 +38,25 @@ const styles = (theme) => ({
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
-    backgroundPosition: 'center'
+    backgroundPosition: 'center',
   },
   paper: {
     margin: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
-  }
+    margin: theme.spacing(3, 0, 2),
+  },
 });
 
 class Login extends Component {
@@ -64,7 +65,8 @@ class Login extends Component {
 
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      modalState: false,
     };
   }
 
@@ -72,9 +74,17 @@ class Login extends Component {
     this.setState({ [evt.target.name]: evt.target.value });
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     const { email, password } = this.state;
-    this.props.loginUser({ email, password });
+    if (email === '' || password === '') {
+      await this.handleModalAlert();
+    } else {
+      this.props.loginUser({ email, password });
+    }
+  };
+
+  handleModalAlert = () => {
+    this.setState({ modalState: !this.state.modalState });
   };
 
   render() {
@@ -84,6 +94,13 @@ class Login extends Component {
     } else {
       return (
         <div>
+          {this.state.modalState ? (
+            <ModalAlert
+              title={'Cannot Login'}
+              msg={'Please enter all fields'}
+              handleModalAlert={this.handleModalAlert}
+            />
+          ) : null}
           <Grid container component='main' className={classes.root}>
             <CssBaseline />
             <Grid item xs={false} sm={4} md={7} className={classes.image} />
@@ -156,7 +173,7 @@ class Login extends Component {
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.users.isAuthenticated,
-    isFetching: state.users.isFetching
+    isFetching: state.users.isFetching,
   };
 };
 

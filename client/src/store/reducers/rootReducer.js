@@ -4,12 +4,14 @@ import itinerariesReducer from './itinerariesReducer';
 import actReducer from './actReducer';
 import userReducer from './userReducer';
 import commentReducer from './commentReducer';
+import errReducer from './errReducer';
 
 const rootReducer = combineReducers({
   cities: citiesReducer,
   itineraries: itinerariesReducer,
   activities: actReducer,
   users: userReducer,
-  comments: commentReducer
+  comments: commentReducer,
+  errors: errReducer,
 });
 export default rootReducer;

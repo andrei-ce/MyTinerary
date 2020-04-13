@@ -14,9 +14,9 @@ import { authUser } from './store/actions/userActions';
 //este es el metodo ue me permite hacer llamadas asincronas (utilizar axios en el action creator)
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
-if (localStorage.getItem('token')) {
-  store.dispatch(authUser());
-}
+// if (localStorage.getItem('token')) {
+//   store.dispatch(authUser());
+// }
 
 ReactDOM.render(
   <Provider store={store}>

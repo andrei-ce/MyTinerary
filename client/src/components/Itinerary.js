@@ -74,7 +74,7 @@ class Itinerary extends Component {
   };
 
   handleFavorite = async (evt, itinerary, user_id) => {
-    await evt.stopPropagation();
+    evt.stopPropagation();
     await this.props.faveItinerary({
       itinerary, //send itinerary -> to action -> to reducer as payload  -> to user state &&
       //also send itinerary_id  -> to action  -> axios
@@ -103,15 +103,15 @@ class Itinerary extends Component {
             <Typography className={classes.secondaryHeading}>
               {duration} | {price} | Rating: {rating}
             </Typography>
-            {this.state.favorite ? (
+            {isAuthenticated && this.state.favorite ? (
               <FavoriteIcon
                 onClick={(evt) => this.handleFavorite(evt, this.props.itinerary, user_id)}
               />
-            ) : (
+            ) : isAuthenticated ? (
               <FavoriteBorderIcon
                 onClick={(evt) => this.handleFavorite(evt, this.props.itinerary, user_id)}
               />
-            )}
+            ) : null}
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className='Itinerary-details'>
             {_id === expanded ? (
