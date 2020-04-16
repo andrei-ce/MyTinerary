@@ -27,14 +27,12 @@ class ModalAlert extends Component {
     };
   }
 
-  handleClose = async () => {
-    await this.setState({ open: false });
-    this.props.handleModalAlert();
+  handleClose = () => {
+    this.props.handleCloseAlert();
   };
 
   render() {
     const { classes, title, msg } = this.props;
-    console.log(this.props);
     return (
       <div>
         <Modal

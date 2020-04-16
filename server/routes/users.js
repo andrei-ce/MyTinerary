@@ -32,7 +32,7 @@ router.post(
     //HANDLE ERRORS: check if any of the above coused errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(error);
+      console.log(errors);
       //format is only not to show errors.errors[{}] - shows errors[{}]
       return res.status(400).json({ errors: errors.array() });
     }
@@ -72,7 +72,7 @@ router.post(
         },
       };
       //use user id to generate token, using jwtSecret, optional configs (expiration)
-      jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
+      jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 3600 }, (err, token) => {
         //if no error, return jwtoken to front-end so user can be logged in right away
         if (err) throw err;
         res.json({ token });
@@ -91,7 +91,7 @@ router.post(
 router.post(
   '/login',
   [
-    check('email', 'Email is required').isEmail(),
+    check('email', 'A valid email is required').isEmail(),
     check('password', 'Password is required').exists(),
   ],
   async (req, res) => {

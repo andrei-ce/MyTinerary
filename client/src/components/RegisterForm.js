@@ -54,6 +54,14 @@ class RegisterForm extends Component {
       modalState: false,
       termsConditions: false,
       showPassword: false,
+      usernameError: false,
+      passwordError: false,
+      emailError: false,
+      firstNameError: false,
+      lastNameError: false,
+      countryError: false,
+      errorTitle: '',
+      errorMsg: '',
     };
   }
 
@@ -75,8 +83,37 @@ class RegisterForm extends Component {
 
   handleSubmit = async () => {
     const { avatar, username, password, email, firstName, lastName, country } = this.state;
+    if (username === '') {
+      this.setState({ usernameError: true });
+    } else {
+      this.setState({ usernameError: false });
+    }
+    if (password === '') {
+      this.setState({ passwordError: true });
+    } else {
+      this.setState({ passwordError: false });
+    }
+    if (email === '') {
+      this.setState({ emailError: true });
+    } else {
+      this.setState({ emailError: false });
+    }
+    if (firstName === '') {
+      this.setState({ firstNameError: true });
+    } else {
+      this.setState({ firstNameError: false });
+    }
+    if (lastName === '') {
+      this.setState({ lastNameError: true });
+    } else {
+      this.setState({ lastNameError: false });
+    }
+    if (country === '') {
+      this.setState({ countryError: true });
+    } else {
+      this.setState({ countryError: false });
+    }
     if (
-      avatar === '' ||
       username === '' ||
       password === '' ||
       email === '' ||
@@ -84,7 +121,8 @@ class RegisterForm extends Component {
       lastName === '' ||
       country === ''
     ) {
-      await this.handleModalAlert();
+      this.setState({ errorMsg: 'Please enter all fields.' });
+      this.handleModalAlert();
     } else {
       this.props.registerUser({ avatar, username, password, email, firstName, lastName, country });
     }
@@ -115,7 +153,7 @@ class RegisterForm extends Component {
           {this.state.modalState ? (
             <ModalAlert
               title={'Cannot register'}
-              msg={'Please enter all fields.'}
+              msg={this.state.errorMsg}
               handleModalAlert={this.handleModalAlert}
             />
           ) : null}
@@ -133,6 +171,7 @@ class RegisterForm extends Component {
                   onChange={this.handleChange}
                   placeholder='billtravel97'
                   labelWidth={75}
+                  error={this.state.usernameError}
                 />
               </FormControl>
               <FormControl fullWidth className={clsx(classes.margin)} variant='outlined'>
@@ -156,6 +195,8 @@ class RegisterForm extends Component {
                     </InputAdornment>
                   }
                   labelWidth={70}
+                  error={this.state.passwordError}
+                  helper
                 />
                 <FormHelperText>Minimum 6 characters</FormHelperText>
               </FormControl>
@@ -168,6 +209,7 @@ class RegisterForm extends Component {
                   onChange={this.handleChange}
                   splaceholder='billjohnson@email.com'
                   labelWidth={45}
+                  error={this.state.emailError}
                 />
               </FormControl>
               <FormControl fullWidth className={classes.margin} variant='outlined'>
@@ -179,6 +221,7 @@ class RegisterForm extends Component {
                   onChange={this.handleChange}
                   placeholder='William'
                   labelWidth={80}
+                  error={this.state.firstNameError}
                 />
               </FormControl>
               <FormControl fullWidth className={classes.margin} variant='outlined'>
@@ -190,6 +233,7 @@ class RegisterForm extends Component {
                   onChange={this.handleChange}
                   placeholder='Johnson'
                   labelWidth={80}
+                  error={this.state.lastNameError}
                 />
               </FormControl>
               <FormControl fullWidth variant='outlined' className={classes.formControl}>
@@ -201,6 +245,7 @@ class RegisterForm extends Component {
                   onChange={this.handleChange}
                   name='country'
                   labelWidth={55}
+                  error={this.state.countryError}
                   endAdornment={
                     <InputAdornment position='end'>
                       <ArrowDropDownIcon

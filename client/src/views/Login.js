@@ -13,6 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { loginUser } from '../store/actions/userActions';
 import ModalAlert from '../components/ModalAlert';
+import { clearErrors } from '../store/actions/errActions';
 import '../styles/login.css';
 
 function Copyright() {
@@ -74,31 +75,42 @@ class Login extends Component {
     this.setState({ [evt.target.name]: evt.target.value });
   };
 
-  handleSubmit = async () => {
+  handleSubmit = async (e) => {
+    e.preventDefault();
     const { email, password } = this.state;
     if (email === '' || password === '') {
-      await this.handleModalAlert();
+      await this.setState({ modalState: true });
     } else {
       this.props.loginUser({ email, password });
     }
   };
 
-  handleModalAlert = () => {
-    this.setState({ modalState: !this.state.modalState });
+  handleCloseAlert = () => {
+    if (this.props.error.status !== null) {
+      this.props.clearErrors();
+    } else if (this.state.modalState === true) {
+      this.setState({ modalState: false });
+    }
   };
 
   render() {
-    const { classes, isAuthenticated } = this.props;
+    const { classes, isAuthenticated, error } = this.props;
     if (isAuthenticated) {
-      return <Redirect to='/' />;
+      return <Redirect to='/cities' />;
     } else {
       return (
         <div>
-          {this.state.modalState ? (
+          {error.status !== null ? (
+            <ModalAlert
+              title={error.status}
+              msg={error.msg}
+              handleCloseAlert={this.handleCloseAlert}
+            />
+          ) : this.state.modalState ? (
             <ModalAlert
               title={'Cannot Login'}
               msg={'Please enter all fields'}
-              handleModalAlert={this.handleModalAlert}
+              handleCloseAlert={this.handleCloseAlert}
             />
           ) : null}
           <Grid container component='main' className={classes.root}>
@@ -142,7 +154,7 @@ class Login extends Component {
                     variant='contained'
                     id='submit-button'
                     className={classes.submit}
-                    onClick={this.handleSubmit}>
+                    onClick={(e) => this.handleSubmit(e)}>
                     Login
                   </Button>
                   <Grid container className='login-links'>
@@ -174,7 +186,8 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.users.isAuthenticated,
     isFetching: state.users.isFetching,
+    error: state.errors,
   };
 };
 
-export default connect(mapStateToProps, { loginUser })(withStyles(styles)(Login));
+export default connect(mapStateToProps, { loginUser, clearErrors })(withStyles(styles)(Login));

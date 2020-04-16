@@ -12,7 +12,7 @@ import {
   FAVE_FAIL,
 } from './types';
 
-import { returnErrors, clearErrors } from '../actions/errActions';
+import { returnErrors } from '../actions/errActions';
 
 import axios from 'axios';
 
@@ -91,7 +91,9 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
     });
     dispatch(authUser());
   } catch (err) {
-    console.log(err);
+    const errorMsg = err.response.data.errors[0].msg;
+    const errorStat = err.response.status;
+    dispatch(returnErrors(errorMsg, errorStat));
     dispatch({
       type: FAIL_LOGIN_USER,
     });
