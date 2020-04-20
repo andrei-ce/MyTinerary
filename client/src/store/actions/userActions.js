@@ -69,6 +69,9 @@ export const registerUser = ({
     dispatch(authUser());
   } catch (err) {
     console.log(err);
+    const errorMsg = err.response.data.errors[0].msg;
+    const errorStat = err.response.status;
+    dispatch(returnErrors(errorMsg, errorStat));
     dispatch({
       type: FAIL_REGISTER_USER,
     });

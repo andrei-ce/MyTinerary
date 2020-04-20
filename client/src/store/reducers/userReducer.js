@@ -55,16 +55,13 @@ const userReducer = (state = initState, action) => {
         isAuthenticated: true,
       };
     case ADD_FAVE:
-      console.log(payload);
       return {
         ...state,
         user: { ...state.user, favorites: [...state.user.favorites, payload] },
       };
     case REMOVE_FAVE:
-      console.log(payload);
       var removeId = payload._id;
       let newFavorites = state.user.favorites.filter((it) => it._id !== removeId);
-      console.log(newFavorites);
       return {
         ...state,
         user: { ...state.user, favorites: newFavorites },

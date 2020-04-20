@@ -102,7 +102,7 @@ class Login extends Component {
         <div>
           {error.status !== null ? (
             <ModalAlert
-              title={error.status}
+              title={`Error ${error.status}: Cannot Login`}
               msg={error.msg}
               handleCloseAlert={this.handleCloseAlert}
             />

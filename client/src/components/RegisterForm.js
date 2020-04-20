@@ -19,6 +19,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormHelperText from '@material-ui/core/FormHelperText'; //maybe to give tips on password
 import ModalAlert from './ModalAlert';
+import { clearErrors } from '../store/actions/errActions';
 import '../styles/registration.css';
 
 const styles = (theme) => ({
@@ -121,19 +122,23 @@ class RegisterForm extends Component {
       lastName === '' ||
       country === ''
     ) {
-      this.setState({ errorMsg: 'Please enter all fields.' });
-      this.handleModalAlert();
+      this.setState({ errorMsg: 'Please enter all fields.', modalState: true });
     } else {
       this.props.registerUser({ avatar, username, password, email, firstName, lastName, country });
     }
   };
 
-  handleModalAlert = () => {
-    this.setState({ modalState: !this.state.modalState });
+  handleCloseAlert = async () => {
+    if (this.props.error.status !== null) {
+      this.props.clearErrors();
+    } else if (this.state.modalState) {
+      await this.setState({ modalState: false });
+    }
   };
 
   render() {
-    const { classes, isAuthenticated } = this.props;
+    console.log(this.props);
+    const { classes, isAuthenticated, error } = this.props;
     const {
       username, // avatar, cannot upload image yet
       password,
@@ -150,11 +155,17 @@ class RegisterForm extends Component {
     } else {
       return (
         <div className={classes.root}>
-          {this.state.modalState ? (
+          {error.status !== null ? (
+            <ModalAlert
+              title={`Error ${error.status}: Cannot Register`}
+              msg={error.msg}
+              handleCloseAlert={this.handleCloseAlert}
+            />
+          ) : this.state.modalState ? (
             <ModalAlert
               title={'Cannot register'}
               msg={this.state.errorMsg}
-              handleModalAlert={this.handleModalAlert}
+              handleCloseAlert={this.handleCloseAlert}
             />
           ) : null}
           <div className='Form-avatar'>
@@ -297,7 +308,10 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.users.isAuthenticated,
     isFetching: state.users.isFetching,
+    error: state.errors,
   };
 };
 
-export default connect(mapStateToProps, { registerUser })(withStyles(styles)(RegisterForm));
+export default connect(mapStateToProps, { registerUser, clearErrors })(
+  withStyles(styles)(RegisterForm)
+);
