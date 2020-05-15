@@ -23,6 +23,7 @@ class Favorites extends Component {
   };
 
   render() {
+    window.scrollTo(0, 0);
     const favorites = this.props.user === null ? null : this.props.user.favorites;
     return (
       <div
@@ -33,7 +34,7 @@ class Favorites extends Component {
         {this.props.user === null ? (
           <Container>
             <p>You need to be logged in to favorite itineraries</p>
-            <img src={GIF} alt='Can´t find favorites' classNamne='gif' />
+            <img src={GIF} alt='Can´t find favorites' className='gif' />
             <script type='text/javascript' async src='https://tenor.com/embed.js'></script>
             <Grid container className='login-links'>
               <Grid item xs>

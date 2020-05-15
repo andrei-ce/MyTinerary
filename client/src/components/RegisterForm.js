@@ -45,7 +45,7 @@ class RegisterForm extends Component {
     super(props);
 
     this.state = {
-      avatar: 'https://source.unsplash.com/lySzv_cqxH8',
+      avatar: null,
       username: '',
       password: '',
       email: '',
@@ -66,24 +66,32 @@ class RegisterForm extends Component {
     };
   }
 
-  handleChange = (evt) => {
-    this.setState({ [evt.target.name]: evt.target.value });
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   handleClickShowPassword = () => {
     this.setState({ showPassword: !this.state.showPassword });
   };
 
-  handleMouseDownPassword = (event) => {
-    event.preventDefault();
+  handleMouseDownPassword = (e) => {
+    e.preventDefault();
   };
 
   handleTandC = () => {
     this.setState({ termsConditions: !this.state.termsConditions });
   };
 
+  handlePhoto = async (e) => {
+    await this.setState({ [e.target.name]: e.target.files[0] });
+    console.log(this.state.avatar);
+  };
+
   handleSubmit = async () => {
     const { avatar, username, password, email, firstName, lastName, country } = this.state;
+    const userData = new FormData();
+    userData.append('avatar', avatar);
+
     if (username === '') {
       this.setState({ usernameError: true });
     } else {
@@ -137,7 +145,6 @@ class RegisterForm extends Component {
   };
 
   render() {
-    console.log(this.props);
     const { classes, isAuthenticated, error } = this.props;
     const {
       username, // avatar, cannot upload image yet
@@ -168,10 +175,21 @@ class RegisterForm extends Component {
               handleCloseAlert={this.handleCloseAlert}
             />
           ) : null}
-          <div className='Form-avatar'>
-            <p>Change Photo</p>
-          </div>
           <div className='Form-mui-parent'>
+            <div className='Form-avatar'></div>
+            <input
+              name='avatar'
+              type='file'
+              accept='/images/*'
+              id='upload-button'
+              hidden
+              onChange={this.handlePhoto}
+            />
+            <InputLabel htmlFor='upload-button'>
+              <Button color='primary' component='span' size='small'>
+                Change Photo
+              </Button>
+            </InputLabel>
             <div>
               <FormControl fullWidth className={classes.margin} variant='outlined'>
                 <InputLabel htmlFor='register-username'>Username</InputLabel>

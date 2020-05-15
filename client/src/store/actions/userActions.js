@@ -41,13 +41,20 @@ export const authUser = () => async (dispatch) => {
 // =========================================
 export const registerUser = ({
   avatar,
-  username, //takes in all these fields from react store state
+  username,
   email,
   password,
   firstName,
   lastName,
   country,
 }) => async (dispatch) => {
+  //this would be needed to send pictures to the server:
+  // const config = {
+  //   headers: {
+  //     'content-type': 'multipart/form-data'
+  //   }
+  //}
+
   //prepate body and headers of POST request
   const body = {
     avatar: avatar,

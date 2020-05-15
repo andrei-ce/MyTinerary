@@ -27,34 +27,34 @@ class Activity extends Component {
             slidesToShow: 3,
             slidesToScroll: 3,
             infinite: true,
-            dots: true
-          }
+            dots: true,
+          },
         },
         {
           breakpoint: 600,
           settings: {
             slidesToShow: 2,
             slidesToScroll: 2,
-            initialSlide: 2
-          }
+            initialSlide: 2,
+          },
         },
         {
           breakpoint: 480,
           settings: {
             slidesToShow: 1,
-            slidesToScroll: 1
-          }
-        }
-      ]
+            slidesToScroll: 1,
+          },
+        },
+      ],
     };
 
     const { activities } = this.props.activities;
-    return (
+    return activities !== null && activities.length > 0 ? (
       <div className='Activity'>
         <h4 className='Title'> Activities </h4>
         <hr />
         <Slider {...settings}>
-          {activities != null ? (
+          {activities != null &&
             activities.map((a) => {
               return (
                 <div className='Activity-item' key={a._id}>
@@ -63,19 +63,18 @@ class Activity extends Component {
                   </h3>
                 </div>
               );
-            })
-          ) : (
-            <div></div>
-          )}
+            })}
         </Slider>
       </div>
+    ) : (
+      <div style={{ color: 'grey' }}> No activities added to this itinerary yet... </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    activities: state.activities
+    activities: state.activities,
   };
 };
 

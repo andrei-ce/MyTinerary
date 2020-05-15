@@ -11,16 +11,10 @@
   width: 170px;
   border-radius: 50%;
   border: 1px solid grey;
-  margin: 20px auto;
+  margin: 10px auto;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.Form-avatar > p {
-  /* color: white;
-  text-shadow: black 1px 1px 4px; */
-  padding-top: 190px;
 }
 
 .Form-mui-parent {
