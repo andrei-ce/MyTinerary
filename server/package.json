@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently --kill-others-on-fail \"nodemon server.js\" \"cd ../client && npm start\"",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix ../client && npm run build --prefix ../client"
   },
   "author": "Andrei Ce",
   "license": "ISC",

@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors');
 const passport = require('passport');
 require('./passport');
+const path = require('path');
 
 // Connect Database
 connectDB();
@@ -20,6 +21,15 @@ app.use('/itineraries', require('./routes/itineraries'));
 app.use('/activities', require('./routes/activities'));
 app.use('/users', require('./routes/users'));
 app.use('/comments', require('./routes/comments'));
+
+//Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  //Set static folder
+  app.use(express.static('../client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+  });
+}
 
 const port = process.env.PORT || 5000;
 
