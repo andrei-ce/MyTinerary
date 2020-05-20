@@ -1,10 +1,10 @@
-const connectDB = require('./config/db');
 const express = require('express');
-const app = express();
-const cors = require('cors');
 const passport = require('passport');
 require('./passport');
 const path = require('path');
+const app = express();
+const cors = require('cors');
+const connectDB = require('./config/db');
 
 // Connect Database
 connectDB();
