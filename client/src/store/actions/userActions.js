@@ -27,7 +27,7 @@ export const authUser = () => async (dispatch) => {
     },
   };
   try {
-    const res = await axios.get('http://localhost:5000/users/auth/', config);
+    const res = await axios.get('/users/auth/', config);
     dispatch({
       type: AUTH_USER,
       payload: res.data, //this is the user that passport.js sends back, which will go into state.user.user (i think)
@@ -68,7 +68,7 @@ export const registerUser = ({
 
   try {
     dispatch({ type: WILL_REGISTER_USER });
-    const res = await axios.post('http://localhost:5000/users/register/', body);
+    const res = await axios.post('/users/register/', body);
     dispatch({
       type: SUCCESS_REGISTER_USER,
       payload: res.data, //this is the token we are sending back with JWT
@@ -94,7 +94,7 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
 
   try {
     dispatch({ type: WILL_LOGIN_USER });
-    const res = await axios.post('http://localhost:5000/users/login/', body);
+    const res = await axios.post('/users/login/', body);
     dispatch({
       type: SUCCESS_LOGIN_USER,
       payload: res.data, //this is the token we are sending back with JWT
@@ -134,7 +134,7 @@ export const faveItinerary = ({ itinerary, user_id }) => async (dispatch) => {
     },
   };
   try {
-    const operation = await axios.put('http://localhost:5000/users/favorites', body, config);
+    const operation = await axios.put('/users/favorites', body, config);
     let msg = operation.data.msg;
     console.log(msg);
     if (msg === 'ADD') {

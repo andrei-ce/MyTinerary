@@ -72,21 +72,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-// add mapDispatchToProps function --> or, directly plug in the getCities function as below:
-
 //connect is a higher order component that connects the component to the Store
 export default connect(mapStateToProps, { getCities })(Cities);
-
-// <div className='Cities-cityList'>
-// {cities
-//   .filter((city) =>
-//     city.name.toLowerCase().startsWith(this.state.searchText.toLowerCase())
-//   )
-//   .map((city) => {
-//     return (
-//       <div key={city._id} className='Cities-cityCard'>
-//         <City city={city} />
-//       </div>
-//     );
-//   })}
-// </div>

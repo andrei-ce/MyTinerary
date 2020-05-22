@@ -9,6 +9,8 @@
   border: 1px solid #353b53;
   border-radius: 5px;
   width: 300px;
+  display: block;
+  margin: 0 auto;
 }
 
 #searchBar:focus {

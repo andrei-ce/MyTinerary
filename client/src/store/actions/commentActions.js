@@ -10,7 +10,7 @@ import axios from 'axios';
 export const getComments = (itinerary_id) => async (dispatch) => {
   dispatch({ type: REQUEST_COMMENTS });
   try {
-    const res = await axios.get('http://localhost:5000/comments/' + itinerary_id);
+    const res = await axios.get('/comments/' + itinerary_id);
     dispatch({ type: GET_COMMENTS, payload: res.data.comments });
   } catch (err) {
     console.log(err);
@@ -32,7 +32,7 @@ export const postComment = (itinerary_id, user, text) => async (dispatch) => {
   };
   dispatch({ type: REQ_POST_COMMENT });
   try {
-    await axios.post('http://localhost:5000/comments/', body, config);
+    await axios.post('/comments/', body, config);
     dispatch({ type: POST_COMMENT });
     dispatch(getComments(itinerary_id));
   } catch (err) {
@@ -48,7 +48,7 @@ export const deleteComment = (comment_id, user_id, itinerary_id) => async (dispa
     },
   };
   try {
-    await axios.delete(`http://localhost:5000/comments/${comment_id}/${user_id}`, config);
+    await axios.delete(`/comments/${comment_id}/${user_id}`, config);
     dispatch({ type: DELETE_COMMENT });
     dispatch(getComments(itinerary_id));
   } catch (err) {
