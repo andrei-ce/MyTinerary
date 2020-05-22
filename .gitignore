@@ -1,0 +1,9 @@
+# dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+#Manually inserted
+config/default.json
+.gif
+
