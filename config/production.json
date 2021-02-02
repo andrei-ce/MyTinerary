@@ -1,4 +1,0 @@
-{
-  "mongoURI": "mongodb+srv://afgce:5XqSRrnUF4yjqyhk@cluster0-vrklw.mongodb.net/mytinerary?retryWrites=true&w=majority",
-  "jwtSecret": "verydifficultencription"
-}
