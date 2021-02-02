@@ -5,21 +5,22 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently --kill-others-on-fail \"nodemon server.js\" \"cd ./client && npm start\"",
-    "start": "node server",
+    "dev": "nodemon server.js",
+    "start": "server.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Andrei Ce",
   "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.18.3"
+  },
   "dependencies": {
     "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
-    "concurrently": "^5.1.0",
     "config": "^3.3.0",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.4.0",
     "gravatar": "^1.8.0",
@@ -29,5 +30,13 @@
     "multer": "^1.4.2",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0"
+  },
+  "nodemonConfig": {
+    "verbose": false,
+    "ignore": [
+      "public"
+    ],
+    "ext": "js, css, ejs",
+    "restartable": "rs"
   }
 }

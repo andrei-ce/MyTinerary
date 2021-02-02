@@ -68,7 +68,7 @@ h3 {
   display: block;
   justify-content: center;
   height: 300px;
-  margin: 64px auto 0 auto;
+  margin: 10rem auto 0 auto;
 }
 
 #root > div > div.MuiGrid-root.Landing.MuiGrid-container > div > div {
@@ -86,7 +86,12 @@ h3 {
   font-size: 36px;
 }
 
-#root > div > div.MuiGrid-root.Landing.MuiGrid-container > div > div > div.MuiCardContent-root {
+#root
+  > div
+  > div.MuiGrid-root.Landing.MuiGrid-container
+  > div
+  > div
+  > div.MuiCardContent-root {
   padding-bottom: 0;
 }
 

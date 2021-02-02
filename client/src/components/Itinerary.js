@@ -54,7 +54,9 @@ class Itinerary extends Component {
   componentDidMount() {
     if (this.props.user !== null) {
       let thisItineraryId = this.props.itinerary._id;
-      if (this.props.user.favorites.map((fave) => fave._id).includes(thisItineraryId)) {
+      if (
+        this.props.user.favorites.map((fave) => fave._id).includes(thisItineraryId)
+      ) {
         this.setState({ favorite: true });
       }
     }
@@ -62,7 +64,9 @@ class Itinerary extends Component {
   UNSAFE_componentWillReceiveProps() {
     if (this.props.user !== null) {
       let thisItineraryId = this.props.itinerary._id;
-      if (this.props.user.favorites.map((fave) => fave._id).includes(thisItineraryId)) {
+      if (
+        this.props.user.favorites.map((fave) => fave._id).includes(thisItineraryId)
+      ) {
         this.setState({ favorite: true });
       }
     }
@@ -85,11 +89,21 @@ class Itinerary extends Component {
 
   render() {
     const { classes, expanded, isAuthenticated, comments } = this.props;
-    const { _id, title, img, duration, description, price, rating } = this.props.itinerary;
+    const {
+      _id,
+      title,
+      img,
+      duration,
+      description,
+      price,
+      rating,
+    } = this.props.itinerary;
     const user_id = this.props.user === null ? null : this.props.user._id;
     return (
       <div className={classes.root}>
-        <ExpansionPanel expanded={_id === expanded} onChange={() => this.handleExpand(_id)}>
+        <ExpansionPanel
+          expanded={_id === expanded}
+          onChange={() => this.handleExpand(_id)}>
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls='panel1bh-content'
@@ -105,11 +119,15 @@ class Itinerary extends Component {
             </Typography>
             {isAuthenticated && this.state.favorite ? (
               <FavoriteIcon
-                onClick={(evt) => this.handleFavorite(evt, this.props.itinerary, user_id)}
+                onClick={(evt) =>
+                  this.handleFavorite(evt, this.props.itinerary, user_id)
+                }
               />
             ) : isAuthenticated ? (
               <FavoriteBorderIcon
-                onClick={(evt) => this.handleFavorite(evt, this.props.itinerary, user_id)}
+                onClick={(evt) =>
+                  this.handleFavorite(evt, this.props.itinerary, user_id)
+                }
               />
             ) : null}
           </ExpansionPanelSummary>
@@ -120,11 +138,13 @@ class Itinerary extends Component {
             <Typography className='Itinerary-description'>{description}</Typography>
             <h4 className={classes.title}> Comments </h4>
             <hr />
-            {_id === expanded
-              ? comments.map((comment) => {
-                  return <Comment key={comment._id} comment={comment} />;
-                })
-              : null}
+            {_id === expanded && comments.length > 0 ? (
+              comments.map((comment) => {
+                return <Comment key={comment._id} comment={comment} />;
+              })
+            ) : (
+              <p>There are no comments yet</p>
+            )}
             {isAuthenticated && _id === expanded ? (
               <CommentField itinerary_id={expanded}></CommentField>
             ) : null}

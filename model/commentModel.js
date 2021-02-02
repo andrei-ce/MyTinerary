@@ -5,21 +5,21 @@ const commentSchema = new mongoose.Schema({
     //this way if a user deletes its account, it will delete all of its posts?
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
-    required: true
+    required: true,
   },
   itinerary_id: {
     type: String,
-    required: true
+    required: true,
   },
   text: {
     type: String,
-    required: true
+    required: true,
   },
   date: {
     type: Date,
     requires: true,
-    default: Date.now
-  }
+    default: Date.now(),
+  },
 });
 
 module.exports = Comment = mongoose.model('comment', commentSchema);

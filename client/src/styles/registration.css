@@ -3,8 +3,17 @@
   margin: 70px 0 10px 0;
 }
 
-.Form-avatar {
-  background-image: url('https://source.unsplash.com/lySzv_cqxH8');
+.Form-mui-parent {
+  padding-bottom: 80px;
+}
+
+#root > div > div.MuiContainer-root.MuiContainer-maxWidthSm > div > div > form > div > div {
+  margin: 8px 0 8px 0;
+  max-width: 300px;
+}
+
+/* needs to come after the above (it also applies to the below, but not wanted) */
+#root > div > div.MuiContainer-root.MuiContainer-maxWidthSm > div > div div.Form-avatar {
   background-size: cover;
   background-position: center;
   height: 170px;
@@ -17,8 +26,9 @@
   justify-content: center;
 }
 
-.Form-mui-parent {
-  padding: 0 15px 80px 0;
+#checkbox > span.MuiTypography-root.MuiFormControlLabel-label {
+  text-align: left;
+  padding-left: 5px;
 }
 
 #root #show-password svg {
@@ -34,8 +44,7 @@
   margin: auto;
   background-color: #ebebeb;
   color: white;
-  width: 350px;
-  max-width: 500px;
+  width: 250px;
 }
 
 #submit-button.register.active {

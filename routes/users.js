@@ -3,10 +3,45 @@ const router = express.Router();
 const User = require('../model/userModel');
 const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
-const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const config = require('config');
 const passport = require('passport');
+
+//==============================
+//======MULTER STUFF STARTS=====
+//==============================
+const multer = require('multer');
+
+//storage strategy with multer: where and what name
+const storage = multer.diskStorage({
+  destination: function (req, res, cb) {
+    //localhost:3000/.../uploads
+    cb(null, './uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname + new Date().toISOString());
+  },
+});
+
+//filter function
+const fileFilter = (req, file, cb) => {
+  //accept file if jpeg or png (error, save or not)
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);
+  } else {
+    //reject file (error, save or not)
+    cb(null, false);
+  }
+};
+//Middleware to be inserted in post call
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 1024 * 1024 * 5 }, //5MB in bytes
+  fileFilter: fileFilter,
+});
+//==============================
+//======MULTER STUFF ENDS=======
+//==============================
 
 // @route   GET /users/test
 // @descr   test route
@@ -20,16 +55,20 @@ router.get('/test', (req, res) => {
 // @access  Public
 router.post(
   '/register',
+  upload.single('avatar'),
   [
     check('username', 'Please enter a valid username').not().isEmpty(),
     check('email', 'Please include a valid email').isEmail(),
-    check('password', 'Please enter a password of minimum 6 chars').isLength({ min: 6 }),
+    check('password', 'Please enter a password of minimum 6 chars').isLength({
+      min: 6,
+    }),
     check('firstName', 'Please enter a first name').not().isEmpty(),
     check('lastName', 'Please enter a last name').not().isEmpty(),
     check('country', 'Please a country').not().isEmpty(),
   ],
   async (req, res) => {
-    //HANDLE ERRORS: check if any of the above coused errors
+    console.log(req.file);
+    //HANDLE ERRORS: check if any of the above caused errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       console.log(errors);
@@ -42,19 +81,23 @@ router.post(
       let userExists = await User.findOne({ username: username });
       let emailExists = await User.findOne({ email: email });
       if (userExists || emailExists) {
-        return res.status(400).json({ errors: [{ msg: 'Username or email already taken' }] });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Username or email already taken' }] });
       }
-      // Get users ravatar from gravatar
-      const avatar = gravatar.url(email, {
-        s: '80', //sets size
-        r: 'pg', //filters naked people
-        d: 'mm', //sets default image if doesnt exist already
-      });
+
+      //Store avatar actual image in the uploads folder (maybe this should be in middleware)
+
+      //Get users image location and store it in mongoDB(now A)
+      const avatar = req.file.path;
+
+      //if (avatar === null) {avatar = 'https://source.unsplash.com/v3HlPuZ03II'}
+
       //Create instance of user to save if afterwards
       let user = new User({
         username,
         email,
-        avatar,
+        avatar, //NEED TO DESTRUCTURE THE IMAGE FROM THE REQUEST.BODY, OR WHATEVER
         password,
         firstName,
         lastName,
@@ -124,11 +167,16 @@ router.post(
       };
 
       //use user id to generate token, using jwtSecret, optional configs (expiration)
-      jwt.sign(payload, config.get('jwtSecret'), { expiresIn: 360000 }, (err, token) => {
-        //if no error, return jwtoken
-        if (err) throw err;
-        res.json({ token });
-      });
+      jwt.sign(
+        payload,
+        config.get('jwtSecret'),
+        { expiresIn: 360000 },
+        (err, token) => {
+          //if no error, return jwtoken
+          if (err) throw err;
+          res.json({ token });
+        }
+      );
       console.log(`User ${user.username} logged in`);
     } catch (err) {
       console.error(err.message);
@@ -140,34 +188,42 @@ router.post(
 // @route   GET /users/auth
 // @descr   receives a token and returns a user (detailed in the middleware file passport.js)
 // @access  Private
-router.get('/auth', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  res.json(req.user);
-});
+router.get(
+  '/auth',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    res.json(req.user);
+  }
+);
 
 // @route   PUT /users/favorites
 // @descr   receives an itinerary_id and adds it to users.favorites, or removes if it exists
 // @access  Private
-router.put('/favorites', passport.authenticate('jwt', { session: false }), async (req, res) => {
-  const { itinerary_id, user_id } = req.body;
-  try {
-    //save user in a variable to run if statement
-    let user = await User.findOne({ _id: user_id });
-    //check if this itinerary is already favorited by user
-    if (user.favorites.includes(itinerary_id)) {
-      //remove itinerary $pull
-      console.log('favorite already exists, removing...');
-      await User.updateOne({ _id: user_id }, { $pull: { favorites: itinerary_id } });
-      res.send({ msg: 'REMOVE' });
-    } else {
-      //add itinerary $push
-      console.log('adding itinerary to favorites...');
-      await User.updateOne({ _id: user_id }, { $push: { favorites: itinerary_id } });
-      res.send({ msg: 'ADD' });
+router.put(
+  '/favorites',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res) => {
+    const { itinerary_id, user_id } = req.body;
+    try {
+      //save user in a variable to run if statement
+      let user = await User.findOne({ _id: user_id });
+      //check if this itinerary is already favorited by user
+      if (user.favorites.includes(itinerary_id)) {
+        //remove itinerary $pull
+        console.log('favorite already exists, removing...');
+        await User.updateOne({ _id: user_id }, { $pull: { favorites: itinerary_id } });
+        res.send({ msg: 'REMOVE' });
+      } else {
+        //add itinerary $push
+        console.log('adding itinerary to favorites...');
+        await User.updateOne({ _id: user_id }, { $push: { favorites: itinerary_id } });
+        res.send({ msg: 'ADD' });
+      }
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server internal error' + err);
     }
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server internal error' + err);
   }
-});
+);
 
 module.exports = router;

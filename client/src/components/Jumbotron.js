@@ -14,7 +14,6 @@ import Button from '@material-ui/core/Button';
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 
 const styles = (theme) => ({
-  // between () theme can me applied
   root: {
     width: '88%',
     maxWidth: 600,
@@ -62,8 +61,9 @@ class Jumbotron extends Component {
         <hr></hr>
         <CardContent className={classes.innerContent}>
           <Typography className={classes.description} color='textSecondary'>
-            Find the perfect trip for you, designed by insiders and locals who know and love their
-            cities. Curated by our team and 80,000+ travellers just like yourself.
+            Find the perfect trip for you, designed by insiders and locals who know and
+            love their cities. Curated by our team and 80,000+ travellers just like
+            yourself.
           </Typography>
           <Link to='/cities'>
             <Button

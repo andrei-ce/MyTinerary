@@ -8,7 +8,7 @@ class Itineraries extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: ''
+      expanded: '',
     };
   }
 
@@ -27,10 +27,13 @@ class Itineraries extends Component {
     const { itineraries, isFetching } = this.props.itineraries;
     const city_data = itineraries.length > 0 ? itineraries[0].city_data : null;
     return (
-      <div className='Itineraries'>
+      <div className='Itineraries' style={{ paddingBottom: '30px' }}>
         <h2 className='Itineraries-CityName'>
           {city_data === null ? (
-            <img src={loader} alt='loading' className={isFetching ? null : 'loaded'}></img>
+            <img
+              src={loader}
+              alt='loading'
+              className={isFetching ? null : 'loaded'}></img>
           ) : (
             city_data.name
           )}
@@ -38,7 +41,9 @@ class Itineraries extends Component {
         </h2>
         <div
           className='Itineraries-CityImg'
-          style={city_data === null ? null : { backgroundImage: `url(${city_data.img})` }}></div>
+          style={
+            city_data === null ? null : { backgroundImage: `url(${city_data.img})` }
+          }></div>
         <div className='Itineraries-itineraryList'>
           {itineraries.map((itinerary) => {
             return (
@@ -59,7 +64,7 @@ class Itineraries extends Component {
 //map some of the data in the state of the Store as a Props in this component
 const mapStateToProps = (state) => {
   return {
-    itineraries: state.itineraries
+    itineraries: state.itineraries,
   };
 };
 

@@ -67,7 +67,7 @@ class CommentField extends Component {
               <React.Fragment>
                 <TextField
                   id='standard-multiline-flexible'
-                  label='Leave your comment...'
+                  label='Comment...'
                   fullWidth
                   multiline
                   rowsMax='4'

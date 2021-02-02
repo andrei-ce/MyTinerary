@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography } from '@material-ui/core/';
 import AvatarMenu from './AvatarMenu';
@@ -21,6 +22,12 @@ const styles = (theme) => ({
     marginRight: theme.spacing(1),
     marginLeft: 'auto',
   },
+  link: {
+    display: 'inherit',
+  },
+  link__item: {
+    padding: '0 5px',
+  },
 });
 
 class NavTop extends Component {
@@ -31,13 +38,16 @@ class NavTop extends Component {
         <AppBar className={classes.menu} position='fixed'>
           <Toolbar>
             <Grid container spacing={3} className={classes.title}>
-              <Grid item>
-                <ExploreIcon fontSize='large' />
-              </Grid>
-              <Grid item>
-                <Typography variant='h4'>MyTinerary</Typography>
-              </Grid>
+              <Link to='/' className={classes.link}>
+                <Grid item className={classes.link__item}>
+                  <ExploreIcon fontSize='large' />
+                </Grid>
+                <Grid item>
+                  <Typography variant='h4'>MyTinerary</Typography>
+                </Grid>
+              </Link>
             </Grid>
+
             <AvatarMenu edge='end' />
             {/* <IconButton edge='end' className={classes.menuButton} color='inherit' aria-label='menu'>
               <MenuDropDown />

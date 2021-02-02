@@ -57,6 +57,7 @@ const styles = (theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    width: 250,
   },
 });
 

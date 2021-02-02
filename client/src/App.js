@@ -12,7 +12,14 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 export default function App() {
   return (
     <BrowserRouter>
-      <div className='App'>
+      <div
+        className='App'
+        style={{
+          backgroundImage: `url('https://source.unsplash.com/A5rCN8626Ck')`,
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+        }}>
         <NavTop />
         <Switch>
           <Route exact path='/' component={Landing} />

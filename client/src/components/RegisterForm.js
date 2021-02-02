@@ -45,7 +45,7 @@ class RegisterForm extends Component {
     super(props);
 
     this.state = {
-      avatar: null,
+      avatar: 'url(https://source.unsplash.com/lySzv_cqxH8)',
       username: '',
       password: '',
       email: '',
@@ -83,15 +83,21 @@ class RegisterForm extends Component {
   };
 
   handlePhoto = async (e) => {
-    await this.setState({ [e.target.name]: e.target.files[0] });
-    console.log(this.state.avatar);
+    console.log(this.state.avatar); //not needed
+    await this.setState({ avatar: e.target.files[0] });
+    console.log(this.state.avatar); //not needed
   };
 
-  handleSubmit = async () => {
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    //destructure fields from state
     const { avatar, username, password, email, firstName, lastName, country } = this.state;
-    const userData = new FormData();
-    userData.append('avatar', avatar);
+    //created form data to be able to upload image (and include registerForm)
+    const fd = new FormData(document.getElementById('registerForm'));
+    fd.append('avatar', avatar);
+    console.log(fd);
 
+    //toogle UI error
     if (username === '') {
       this.setState({ usernameError: true });
     } else {
@@ -122,6 +128,8 @@ class RegisterForm extends Component {
     } else {
       this.setState({ countryError: false });
     }
+
+    //toggle modal msg
     if (
       username === '' ||
       password === '' ||
@@ -131,9 +139,13 @@ class RegisterForm extends Component {
       country === ''
     ) {
       this.setState({ errorMsg: 'Please enter all fields.', modalState: true });
-    } else {
-      this.props.registerUser({ avatar, username, password, email, firstName, lastName, country });
+      //else, submit form
     }
+    //uncomment!
+    // else {
+    //   this.props.registerUser({ avatar, username, password, email, firstName, lastName, country });
+    // }
+    console.log('Form was sent');
   };
 
   handleCloseAlert = async () => {
@@ -147,7 +159,8 @@ class RegisterForm extends Component {
   render() {
     const { classes, isAuthenticated, error } = this.props;
     const {
-      username, // avatar, cannot upload image yet
+      avatar,
+      username,
       password,
       showPassword,
       email,
@@ -175,22 +188,22 @@ class RegisterForm extends Component {
               handleCloseAlert={this.handleCloseAlert}
             />
           ) : null}
-          <div className='Form-mui-parent'>
-            <div className='Form-avatar'></div>
-            <input
-              name='avatar'
-              type='file'
-              accept='/images/*'
-              id='upload-button'
-              hidden
-              onChange={this.handlePhoto}
-            />
-            <InputLabel htmlFor='upload-button'>
-              <Button color='primary' component='span' size='small'>
-                Change Photo
-              </Button>
-            </InputLabel>
-            <div>
+          <form id='registerForm' onSubmit={(e) => this.handleSubmit(e)}>
+            <div className='Form-mui-parent'>
+              <div className='Form-avatar' style={{ backgroundImage: avatar }}></div>
+              <input
+                name='avatar'
+                type='file'
+                accept='/images/*'
+                id='upload-button'
+                hidden
+                onChange={(e) => this.handlePhoto(e)}
+              />
+              <InputLabel htmlFor='upload-button'>
+                <Button color='primary' component='span' size='small'>
+                  Change Photo
+                </Button>
+              </InputLabel>
               <FormControl fullWidth className={classes.margin} variant='outlined'>
                 <InputLabel htmlFor='register-username'>Username</InputLabel>
                 <OutlinedInput
@@ -301,12 +314,12 @@ class RegisterForm extends Component {
                 control={
                   <Checkbox onClick={this.handleTandC} value='termsConditions' color='primary' />
                 }
-                label='I agree to the terms and conditions of MYtinerary.'
+                label='I agree to the terms and conditions of MYtinerary'
               />
               <FormControl fullWidth className={classes.formControl}>
                 <Button
                   disabled={!termsConditions}
-                  onClick={this.handleSubmit}
+                  type='submit'
                   name='submit'
                   id='submit-button'
                   variant='contained'
@@ -315,7 +328,7 @@ class RegisterForm extends Component {
                 </Button>
               </FormControl>
             </div>
-          </div>
+          </form>
         </div>
       );
     }
