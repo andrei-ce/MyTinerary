@@ -3,7 +3,6 @@ const router = express.Router();
 const Comment = require('../model/commentModel');
 const { check, validationResult } = require('express-validator');
 const passport = require('passport');
-const moment = require('moment');
 
 // @route   GET /comments/test
 // @descr   test route
