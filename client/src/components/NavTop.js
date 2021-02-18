@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
-    marginBottom: 10,
+    marginBottom: 0,
   },
   title: {
     justifyContent: 'center',

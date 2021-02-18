@@ -5,8 +5,9 @@
   width: 100%;
   height: 50px;
   background-color: #282c3e;
+  margin-top: 100px;
 }
 
-#root svg{
+#root svg {
   color: white;
 }

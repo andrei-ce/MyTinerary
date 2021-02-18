@@ -29,6 +29,10 @@ h3 {
   font-size: 1.7em;
 }
 
+.App {
+  margin-bottom: 60px;
+}
+
 #root > div > div.Header-root-1 > header > div > button {
   margin-right: 0;
 }

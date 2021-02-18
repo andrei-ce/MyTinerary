@@ -26,7 +26,7 @@ img.loaded {
 }
 
 .Cities {
-  margin-top: 70px;
+  margin-top: 64px;
   background-color: #ebebeb;
   height: 100%;
   min-height: 100vh;
@@ -38,7 +38,7 @@ img.loaded {
   justify-content: center;
   width: 95%;
   margin: 0 auto;
-  margin-bottom: 50px;
+  padding-bottom: 60px;
 }
 
 .Cities-cityCard {
