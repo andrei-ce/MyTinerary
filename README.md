@@ -36,7 +36,7 @@ more information.
 Builds the app for production to the `build` folder.<br /> It correctly bundles React
 in production mode and optimizes the build for the best performance.<br />
 
-### Deployment
+## Deployment
 
 This app is deployed (versions might not match exactly) at
 [https://mytinerary-ac.herokuapp.com/](https://mytinerary-ac.herokuapp.com/)
